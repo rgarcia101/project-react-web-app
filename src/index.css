@@ -11,3 +11,110 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+/*Multiple */
+/*  Misc*/
+.wd-general{
+  padding: 10px;
+}
+
+.custom-image {
+  width: 100px;
+  padding: 10px;
+}
+
+.active-button {
+  background-color: black;
+  color: white;
+  border-radius: 50px;
+  padding: 5px 10px;
+}
+
+/*Banner backgrounds */
+.gold-background {
+  background-color: #FFC000;
+}
+
+.gold-background:nth-child(1), .gold-background:nth-child(2) {
+  border-bottom: 1px solid black;
+}
+
+/*Navigation: Index */
+.wd-home-icon {
+  margin-right: 20px;
+}
+
+/*HomeAnonymous: Index */
+.large-banner-text {
+  font-size: 1.4em;
+  padding: 10px;
+}
+
+.wd-bottom-of-page{
+  padding: 10px;
+  margin-bottom: 30px;
+}
+
+
+
+/*HomeLoggedIn: Index */
+.table-newsfeed {
+  width: 100%;
+}
+
+.table-newsfeed tr{
+  margin: 10px;
+  border-bottom: 1px solid grey;
+}
+
+.table-newsfeed-header-row th {
+  background-color: #001F3F;
+  color: white;
+  padding: 5px;
+  font-size: 1em;
+  text-align: left;
+}
+
+
+/*Profile: Index*/
+/*  Page layout*/
+.wd-grid-col-wide-column {
+  width: 80%;
+  float: left;
+}
+.wd-grid-col-narrow-column {
+  width: 20%;
+  float: left;
+}
+.wd-grid-col-followers {
+  width: 20%;
+  float: left;
+  background-color: #001F3F;
+  color: white;
+}
+
+/*Table formatting*/
+.table-profile {
+  width: 100%;
+}
+.table-profile tr{
+  border-bottom: 1px solid lightgrey;
+  margin-bottom: 10px;
+}
+
+
+.table-profile-header-row th {
+  background-color: steelblue;
+  color: white;
+  padding: 5px;
+  font-size: 1em;
+  text-align: left;
+}
+
+
+/*Following/Follower list */
+.follow_list {
+  color: white;
+  margin-bottom: 8px;
+}
