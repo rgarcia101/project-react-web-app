@@ -11,7 +11,7 @@ import Login from "./Login";
 import { useState} from "react";
 
 function App() {
-  const [key, setKey] = useState('home')
+  const [key, setKey] = useState('home');
   // process.env;
 
   return (
@@ -23,7 +23,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="HomeAnonymous" />} />
           <Route path="/search"    element={<Search/>}/>
-          <Route path="/details" element={<BookDetails/>}/>
+          <Route path="/details/:bookId" element={<BookDetails/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/HomeAnonymous" element={<HomeAnonymous />} />
           <Route path="/HomeLoggedIn" element={<HomeLoggedIn />} />
