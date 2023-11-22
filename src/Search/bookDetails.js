@@ -26,15 +26,15 @@ function BookDetails() {
             <div>
                {book && (
                   <div class="row">
-                  <div class="col-2">
-                  <img src={book.imageLinks ? book.imageLinks.smallThumbnail : ''} class = "img-fluid"/><br/>
-                     <button className="btn btn-success">Want to read</button>
+                  <div class="col-2 text-center">
+                     <img src={book.imageLinks ? book.imageLinks.smallThumbnail : ''} class = "img-fluid"/><br/>
+                     <button className="btn btn-success margin-20-top">Want to read</button>
                   </div>
                   <div class="col">
-                     <h2>{book.title}</h2>
+                     <h2 className="font-bold">{book.title}</h2>
                      <h5>{book.authors[0]}</h5>
-                     <h6>Rating: {book.averageRating ? book.averageRating: "Unknown"}</h6>
-                     <p>{book.description}</p>
+                     <h6>Rating: {book.averageRating ? book.averageRating: "Unknown"}</h6><hr/>
+                     <p dangerouslySetInnerHTML={{ __html: book.description }} /><hr/>
                      <p>Genre: {book.categories[0]}</p>
 
                      {/* Book details like page number, publication date, edition */}

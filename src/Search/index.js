@@ -68,7 +68,6 @@ function Search() {
                   <img src={item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : ''} className='float-start margin-thumbnail'/>
                     <span className='title-size font-bold'>{item.volumeInfo.title}</span><br />
                     by {item.volumeInfo.authors ? item.volumeInfo.authors.join(', ') : 'Unknown Author'}<br />
-                    
                   </Link>
                 </li>
             ))
