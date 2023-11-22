@@ -17,8 +17,6 @@ function App() {
   return (
 
     <HashRouter>
-      {key}
-      <pre>{JSON.stringify(process.env, null, 2)}</pre>
       <div>
         <Routes>
           <Route path="/" element={<Navigate to="HomeAnonymous" />} />

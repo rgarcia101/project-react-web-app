@@ -48,7 +48,6 @@ function Search() {
                             className="btn btn-primary"
                             onClick={() => navigate(`/search/${searchTerm}`)
 
-                              // fetchBooks(searchTerm)
                             }
 
                     >Search</button>
@@ -56,7 +55,7 @@ function Search() {
             </form>
 
             <h4 className="page-padding-top">Books</h4>
-            <p className='small-margin-bottom'>Page 1 of 10</p>
+            <p className='small-margin-bottom'>Page 1 of 10 max results</p>
             <hr className='small-margin-top'/>
 
           <ul className="list-group">
@@ -64,11 +63,12 @@ function Search() {
                 <li key={index} className={"list-group-item"}>
 
                   {/* Working now, not sure why!!*/}
-                  <Link to={`/details/${item.id}`}>  
-                    Title: {item.volumeInfo.title}<br />
-                    Author: {item.volumeInfo.authors ? item.volumeInfo.authors.join(', ') : 'Unknown Author'}<br />
-                    Id: {item.id}<br/>
-                    <img src={item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : ''}/>
+                  
+                  <Link to={`/details/${item.id}`} className='link-styling'>  
+                  <img src={item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : ''} className='float-start margin-thumbnail'/>
+                    <span className='title-size font-bold'>{item.volumeInfo.title}</span><br />
+                    by {item.volumeInfo.authors ? item.volumeInfo.authors.join(', ') : 'Unknown Author'}<br />
+                    
                   </Link>
                 </li>
             ))
@@ -86,7 +86,7 @@ function Search() {
             {/*  ))*/}
             {/*}*/}
           </ul>
-          <pre>{JSON.stringify(results, null, 2)}</pre>
+          {/* <pre>{JSON.stringify(results, null, 2)}</pre> */}
         </div>
      </div>
     );
