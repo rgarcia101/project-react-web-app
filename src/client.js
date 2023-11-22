@@ -9,3 +9,10 @@ export const findBooks = async (searchTerm) => {
   return response.data.items;
   // return response.data.items.map((item) => item.volumeInfo);
 };
+
+export const findBookById = async (bookId) => {
+  const response = await axios.get(
+    `${BOOKS_API}/${bookId}?key=${API_KEY}`
+  );
+  return response.data.volumeInfo;
+}

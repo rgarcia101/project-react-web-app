@@ -1,19 +1,32 @@
 import './index.css';
 import NavBar from './navBar';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {API_KEY} from "../client";
 import * as client from "../client";
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
 
 
 function Search() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const {search} = useParams();
+  const [searchTerm, setSearchTerm] = useState(search);
   const [results, setResults] = useState(null);
+  const navigate = useNavigate();
 
-  const fetchBooks = async () => {
-    const results = await client.findBooks(searchTerm);
+  const fetchBooks = async (search) => {
+    const results = await client.findBooks(search);
     setResults(results);
+    setSearchTerm(search);
   };
+
+  useEffect(() => {
+    if (search){
+      fetchBooks(search);
+    }
+
+  }, [search]
+
+  );
 
 
   return(
@@ -33,7 +46,10 @@ function Search() {
                 <div className="col-2 no-padding-left">
                     <button type="submit"
                             className="btn btn-primary"
-                            onClick={fetchBooks}
+                            onClick={() => navigate(`/search/${searchTerm}`)
+
+                              // fetchBooks(searchTerm)
+                            }
 
                     >Search</button>
                 </div>
@@ -47,12 +63,13 @@ function Search() {
             {results && results.map((item, index) => (
                 <li key={index} className={"list-group-item"}>
 
-                  {/*<Link to={`/details/${item.id}`}>*/}  TODO: Fix this - link not working
+                  {/* Working now, not sure why!!*/}
+                  <Link to={`/details/${item.id}`}>  
                     Title: {item.volumeInfo.title}<br />
                     Author: {item.volumeInfo.authors ? item.volumeInfo.authors.join(', ') : 'Unknown Author'}<br />
                     Id: {item.id}<br/>
                     <img src={item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : ''}/>
-                  {/*</Link>*/}
+                  </Link>
                 </li>
             ))
             }
