@@ -1,5 +1,7 @@
 import { useState } from "react";
 import * as client from "../client";
+import Navigation from "../Navigation";
+import './index.css';
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -17,20 +19,25 @@ function Login() {
   };
   return(
       <div>
+        <Navigation/>
 
-        <div className='page-padding'>
-          <h4 className="page-padding-top">LOGIN PAGE</h4>
+        <div className='page-padding center'>
+          <h1>Sign In</h1>
           {error && <div className="alert alert-danger">{error.message}</div>}
+          <label for="username-form-control" className="form-label">Username</label>
           <input
                 type="text"
-                className = "form-control"
+                id = "username-form-control"
+                className = "form-control rounded-pill margin-bottom-small w-25"
                 placeholder="Username"
                 value = {username}
                 onChange = {(e) => setUsername(e.target.value)}
             />
+            <label for="password-form-control" className="form-label">Password</label>
             <input
                 type="password"
-                className="form-control"
+                id = "password-form-control"
+                className="form-control rounded-pill w-25"
                 placeholder="Password"
                 value = {password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -38,13 +45,11 @@ function Login() {
             />
             <button
                 onClick={logIn}
-                className="btn btn-primary">
-                    Login
+                className="btn btn-dark rounded-pill w-25 margin-top-small">
+                    Sign In
                 </button>
 
         </div>
-
-
      </div>
   );
 }
