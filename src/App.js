@@ -8,6 +8,7 @@ import HomeAnonymous from "./HomeAnonymous";
 import HomeLoggedIn from "./HomeLoggedIn";
 import Profile from "./Profile";
 import Login from './Login/index';
+import Registration from './Registration';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="/HomeLoggedIn" element={<HomeLoggedIn />} />
           <Route path="/Profile" element={<Profile />}/>
           <Route path="/login" element = {<Login/>}/>
+          <Route path="/signup" element = {<Registration/>}/>
         </Routes>
       </div>
     </HashRouter>
