@@ -6,6 +6,7 @@ function Registration() {
   return(
       <div>
         <Navigation/>
+        <div className="page-padding">
         <h1>Sign up</h1>
 
         <label for="first-name-form-control" className="form-label">First Name</label>
@@ -44,8 +45,8 @@ function Registration() {
             />
         {/* Check in with katie regarding db values */}
         <label for="role-dropdown" className="form-label">Roles</label><br/>
-        <select id = "role-dropdown">
-            <option value="USER">General User</option>
+        <select class="form-select w-25" id = "role-dropdown">
+            <option selected value="USER">General User</option>
             <option value="ADMIN">Administrator</option>
             <option value="AUTHOR">Author</option>
           </select><br/>
@@ -56,7 +57,7 @@ function Registration() {
                     Sign Up
                 </button>
 
-        
+        </div>
      </div>
   );
 }

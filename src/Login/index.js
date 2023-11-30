@@ -1,6 +1,7 @@
 import { useState } from "react";
 import * as client from "../client";
 import Navigation from "../Navigation";
+import { Link } from "react-router-dom";
 import './index.css';
 
 function Login() {
@@ -47,7 +48,9 @@ function Login() {
                 onClick={logIn}
                 className="btn btn-dark rounded-pill w-25 margin-top-small">
                     Sign In
-                </button>
+            </button>
+            
+            <Link to="../signup">Not an existing user? Sign up here.</Link>
 
         </div>
      </div>
