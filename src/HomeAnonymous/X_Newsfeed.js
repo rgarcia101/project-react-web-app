@@ -1,6 +1,6 @@
-import HowBeautiful from '../HomeAnonymous/HowBeautiful.jpg';
+import HowBeautiful from './/HowBeautiful.jpg';
 
-function Newsfeed(){
+function X_Newsfeed(){
   return(
       <div className = "wd-general">
         <table className="table-newsfeed">
@@ -62,4 +62,4 @@ function Newsfeed(){
   )
 }
 
-export default Newsfeed
+export default X_Newsfeed

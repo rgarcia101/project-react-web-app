@@ -14,23 +14,26 @@ function Profile() {
             <div className="wd-grid-col-wide-column wd-general">
               <div>
                 <span>
-                  <strong>Bookworm22</strong> (edit profile)
+                  <h4>Bookworm22</h4>
                 </span>
               </div>
               <hr/>
               <table className="table">
                 <tbody>
                 <tr >
-                  <td>Location</td>
-                  <td>Medford, MA</td>
+                  <td>First Name</td>
+                  <td>Katie</td>
+                  <td>EDIT BUTTON</td>
+                </tr>
+                <tr >
+                  <td>Last Name</td>
+                  <td>Davenport</td>
+                  <td>EDIT BUTTON</td>
                 </tr>
                 <tr >
                   <td>Activity</td>
                   <td>Member since October 2023</td>
-                </tr>
-                <tr >
-                  <td>Favorite Genres</td>
-                  <td>Biography, Historical Fiction, Mystery</td>
+                  <td></td>
                 </tr>
                 </tbody>
               </table>
@@ -41,65 +44,27 @@ function Profile() {
             <h5>Bookshelf</h5>
             <table className="table-profile">
               <tr className="table-profile-header-row">
-                <th scope="col">Book</th>
-                <th scope="col">Genre</th>
-                <th scope="col">My Rating</th>
-                <th scope="col">Add Comment</th>
-                <th scope="col">Private Notes</th>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Review</th>
+                <th scope="col">Review Actions</th>
               </tr>
               <tr>
-                <td>Steve Jobs, Walter Isaacson</td>
-                <td>Biography</td>
-                <td>*****</td>
-                <td>+</td>
-                <td>Bday gift for Bob</td>
+                <td>Caleb's Crossing</td>
+                <td>Geraldine Brooks</td>
+                <td>Great Book</td>
+                <td>EDIT BUTTON, DELETE BUTTON</td>
               </tr>
               <tr>
-                <td>Steve Jobs, Walter Isaacson</td>
-                <td>Biography</td>
-                <td>*****</td>
-                <td>+</td>
-                <td>Bday gift for Bob</td>
-              </tr>
-
-            </table>
-
-          </div>
-          <div className="wd-grid-row wd-general">
-            <h5>Wish List</h5>
-            <table className="table-profile">
-              <tr className="table-profile-header-row">
-                <th scope="col">Book</th>
-                <th scope="col">Genre</th>
-                <th scope="col">NYT Rating</th>
-                <th scope="col">Comment</th>
-                <th scope="col">Private Notes</th>
-              </tr>
-              <tr>
-                <td>The Book Thief, Markus Zusak</td>
-                <td>Hist Fiction</td>
-                <td>3.92</td>
-                <td>Y</td>
-                <td>Janet recommended this</td>
-              </tr>
-              <tr>
-                <td>The Book Thief, Markus Zusak</td>
-                <td>Hist Fiction</td>
-                <td>3.92</td>
-                <td>Y</td>
-                <td>Janet recommended this</td>
-              </tr>
-              <tr>
-                <td>The Book Thief, Markus Zusak</td>
-                <td>Hist Fiction</td>
-                <td>3.92</td>
-                <td>Y</td>
-                <td>Janet recommended this</td>
+                <td>Team of Rivals</td>
+                <td>Doris Kearns Goodwin</td>
+                <td></td>
+                <td>ADD BUTTON</td>
               </tr>
             </table>
           </div>
         </div>
-        <div className="wd-grid-col-followers">
+        <div className="wd-grid-col-right-panel">
           <div className="wd-grid-row wd-general">
             <h6>
               Following (5)

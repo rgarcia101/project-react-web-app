@@ -1,3 +1,4 @@
+
 import {BsBookFill} from "react-icons/bs";
 
 function Navigation(){
@@ -9,7 +10,7 @@ function Navigation(){
           <div className="float-end">
             <button type="button" className="btn btn-warning" style={{ fontSize: "1.1em"}}>Profile</button>
             <button type="button" className="btn btn-warning" style={{ fontSize: "1.1em"}}>Search</button>
-            <button type="button" className="btn btn-warning" style={{ fontSize: "1.1em"}}>Log Out</button>
+            <button type="button" className="btn btn-warning" style={{ fontSize: "1.1em"}}>Logout</button>
           </div>
         </div>
       </div>

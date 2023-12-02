@@ -1,10 +1,12 @@
 import "../index.css";
 import { BsBookFill } from "react-icons/bs";
-import BookList from "./BookList";
+import NewReleases from "./NewReleases";
 
 function HomeAnonymous() {
+
   return (
       <div>
+        {/*Top Navigation Bar */}
         <div className="row gold-background wd-general">
           <div>
             <BsBookFill className="wd-home-icon" style={{ float: "left", fontSize: "2em", color: "black"}} />
@@ -14,41 +16,36 @@ function HomeAnonymous() {
               <button type="button" className="active-button" style={{ fontSize: "1.1em"}}>Get Started</button>
             </div></div>
         </div>
+
+        {/*Middle Navigation Bar*/}
         <div className="row gold-background wd-general">
           <div className="col large-banner-text">
+            <span>
+              Create your bookshelf.
+            </span><br/>
             <span>
               Learn about books.
             </span><br/>
             <span>
-              Get book recommendations.
+              Connect with other readers.
             </span><br/>
             <span>
-              Share books with friends.
-            </span><br/>
-            <span>
-              Add to your bookshelf.
+              Share book recommendations.
             </span><br/>
           </div>
+        </div>
 
-        </div>
+        {/*Data from APIs */}
         <div className="row wd-general ">
-          <h6>Sample Personal Recommendations</h6>
-          <BookList />
+          <NewReleases />
         </div>
-        <hr/>
-        <div className="row wd-general ">
-          <h6>Top Fiction</h6>
-          <BookList />
-        </div>
-        <hr/>
-        <div className="row wd-general ">
-          <h6>Top Nonfiction</h6>
-          <BookList />
-        </div>
+
+        {/*Author Page */}
         <hr/>
         <div className="wd-bottom-of-page">
           <h6>Are you an Author?</h6>
           Book Buddies is a great place to promote your books and expand your readership.
+          Engage with book lovers by creating posts that are visible to your readers.
         </div>
       </div>
   );
