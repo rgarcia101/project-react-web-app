@@ -45,6 +45,28 @@ code {
   margin-right: 20px;
 }
 
+
+
+.wd-navigation a {
+  background-color: #FFC000;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 0.8em;
+  text-align: center;
+  border: none;
+}
+
+.wd-navigation a.active {
+  background-color: white;
+  color: red;
+}
+
+
+
+
+
+
+
 /*HomeAnonymous: Index */
 .large-banner-text {
   font-size: 1.4em;
@@ -54,26 +76,6 @@ code {
 .wd-bottom-of-page{
   padding: 10px;
   margin-bottom: 30px;
-}
-
-
-
-/*HomeLoggedIn: Index */
-.table-newsfeed {
-  width: 100%;
-}
-
-.table-newsfeed tr{
-  margin: 10px;
-  border-bottom: 1px solid grey;
-}
-
-.table-newsfeed-header-row th {
-  background-color: #001F3F;
-  color: white;
-  padding: 5px;
-  font-size: 1em;
-  text-align: left;
 }
 
 
@@ -87,11 +89,12 @@ code {
   width: 20%;
   float: left;
 }
-.wd-grid-col-followers {
+.wd-grid-col-right-panel {
   width: 20%;
   float: left;
-  background-color: #001F3F;
+  background-color: #004225;
   color: white;
+  height: 100vh;
 }
 
 /*Table formatting*/
@@ -105,7 +108,7 @@ code {
 
 
 .table-profile-header-row th {
-  background-color: steelblue;
+  background-color: #004080;
   color: white;
   padding: 5px;
   font-size: 1em;
