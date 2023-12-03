@@ -1,0 +1,17 @@
+.margin-top-small{
+    margin-top: 10px !important;
+}
+
+.margin-bottom-small{
+    margin-bottom: 8px !important;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+  }
+
+
