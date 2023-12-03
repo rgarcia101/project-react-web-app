@@ -1,6 +1,6 @@
 import { useState } from "react";
 import * as client from "../users/client";
-import Navigation from "../Navigation";
+import LoginBar from "./loginBar";
 import { Link } from "react-router-dom";
 import './index.css';
 
@@ -20,7 +20,7 @@ function Login() {
   };
   return(
       <div>
-        <Navigation/>
+        <LoginBar/>
 
         <div className='page-padding center'>
           <h1>Sign In</h1>

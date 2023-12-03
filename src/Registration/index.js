@@ -1,11 +1,10 @@
-import Navigation from "../Navigation";
-
+import LoginBar from "../Login/loginBar";
 
 function Registration() {
   
   return(
       <div>
-        <Navigation/>
+        <LoginBar/>
         <div className="page-padding">
         <h1>Sign up</h1>
 
