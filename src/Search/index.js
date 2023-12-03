@@ -1,5 +1,4 @@
 import './index.css';
-import NavBar from './navBar';
 import {useEffect, useState} from "react";
 import {API_KEY} from "../client";
 import * as client from "../client";

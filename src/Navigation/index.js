@@ -1,34 +1,54 @@
-import { useNavigate } from 'react-router-dom';
-import {BsBookFill} from "react-icons/bs";
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { BsBookFill } from "react-icons/bs";
+import './index.css';
 
-function Navigation(){
+function Navigation() {
   const navigate = useNavigate();
+  const location = useLocation(); 
+  const [activeTab, setActiveTab] = useState('');
 
-  const handleLogout = () => {
-    navigate('/');
-  };
+  useEffect(() => {
+    setActiveTab(location.pathname.split('/')[1]); 
+  }, [location]);
 
-  const handleSearch = () => {
-    navigate('/Search')
-  }
+  
+const isTabActive = (tabPath) => {
+  const currentBasePath = location.pathname.split('/')[1].toLowerCase(); 
+  return currentBasePath === tabPath.toLowerCase();
+};
 
-  const handleProfile = () => {
-    navigate('/Profile')
-  }
 
-  return(
-      <div className="row gold-background wd-general">
-        <div>
-          <BsBookFill className="wd-home-icon" style={{ float: "left", fontSize: "2em", color: "black"}} />
-          <span style={{ fontSize: "1.5em"}}>BookBuddies</span>
-          <div className="float-end nav navbar-expand-lg gold-background nav-pills black-text">
-            <button type="button" className="btn btn-warning" style={{ fontSize: "1.1em"}}>Home</button>
-            <button type="button" className="btn btn-warning" style={{ fontSize: "1.1em"}}onClick={handleProfile}>Profile</button>
-            <button type="button" className="btn btn-warning" style={{ fontSize: "1.1em"}}onClick={handleSearch}>Search</button>
-            <button type="button" className="btn btn-warning" style={{ fontSize: "1.1em"}} onClick={handleLogout}>Logout</button>
-          </div>
+  return (
+    <div className="row gold-background wd-general">
+      <div>
+        <BsBookFill className="wd-home-icon" style={{ float: "left", fontSize: "2em", color: "black" }} />
+        <span style={{ fontSize: "1.5em" }}>BookBuddies</span>
+        <div className="float-end nav navbar-expand-lg gold-background nav-pills black-text">
+          <button type="button" 
+                  className={`btn ${isTabActive('HomeLoggedIn') ? 'oval-active-nav-pill nav-link active' : 'btn-warning'}`}
+                  onClick={() => navigate('/HomeLoggedIn')}>
+            Home
+          </button>
+          <button type="button" 
+                  className={`btn ${isTabActive('Profile') ? 'oval-active-nav-pill nav-link active' : 'btn-warning'}`}
+                  onClick={() => navigate('/Profile')}>
+            Profile
+          </button>
+          <button type="button" 
+                  className={`btn ${isTabActive('search') ? 'oval-active-nav-pill nav-link active' : 'btn-warning'}`}
+                  onClick={() => navigate('/Search')}>
+            Search
+          </button>
+          <button type="button" 
+                  className={`btn ${isTabActive('') ? 'oval-active-nav-pill nav-link active' : 'btn-warning'}`}
+                  onClick={() => navigate('/')}>
+            Logout
+          </button>
         </div>
       </div>
+    </div>
   );
 }
+
 export default Navigation;
