@@ -1,61 +1,214 @@
-/*Nav Bar*/
-.oval-active-nav-pill .nav-link.active {
-    border-radius: 50px; /* Use a large value to create an oval shape */
-    background-color: black !important;
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+/*Multiple */
+/*  Misc*/
+.wd-general{
+    padding: 10px;
+}
+
+.custom-image {
+    width: 100px;
+    padding: 10px;
+}
+
+.active-button {
+    background-color: black;
+    color: white;
+    border-radius: 50px;
+    padding: 5px 10px;
+}
+
+/*Banner backgrounds */
 .gold-background {
     background-color: #FFC000;
-    padding-top: 4px;
-    padding-bottom: 4px;
 }
 
-.black-text .nav-link {
-    color: black; /* Set the desired text color (black in this case) */
+.gold-background:nth-child(1), .gold-background:nth-child(2) {
+    border-bottom: 1px solid black;
 }
 
-.black-text .nav-link:hover {
-    color: white; /* Set the desired text color (black in this case) */
+/*Navigation: Index */
+.wd-home-icon {
+    margin-right: 20px;
 }
 
-.no-padding-left {
-    padding-left: 0px !important;
+/*HomeAnonymous: Index */
+.large-banner-text {
+    font-size: 1.4em;
+    padding: 10px;
 }
 
-.no-padding {
-    padding: 0;
+.wd-bottom-of-page{
+    padding: 10px;
+    margin-bottom: 30px;
 }
 
-.page-padding {
-    padding: 20px
+
+
+/*HomeLoggedIn: Index */
+.table-newsfeed {
+    width: 100%;
 }
 
-.page-padding-top{
-    padding-top: 20px;
+.table-newsfeed tr{
+    margin: 10px;
+    border-bottom: 1px solid grey;
 }
 
-.small-margin-top{
-    margin-top: 4px !important;
+.table-newsfeed-header-row th {
+    background-color: #001F3F;
+    color: white;
+    padding: 5px;
+    font-size: 1em;
+    text-align: left;
 }
 
-.small-margin-bottom{
-    margin-bottom:4px !important;
+
+/*Profile: Index*/
+/*  Page layout*/
+.wd-grid-col-wide-column {
+    width: 80%;
+    float: left;
+}
+.wd-grid-col-narrow-column {
+    width: 20%;
+    float: left;
+}
+.wd-grid-col-followers {
+    width: 20%;
+    float: left;
+    background-color: #001F3F;
+    color: white;
 }
 
-.yellow-color {
-    background-color: yellow;
+/*Table formatting*/
+.table-profile {
+    width: 100%;
+}
+.table-profile tr{
+    border-bottom: 1px solid lightgrey;
+    margin-bottom: 10px;
 }
 
-.green-color {
-    background-color: green;
+
+.table-profile-header-row th {
+    background-color: steelblue;
+    color: white;
+    padding: 5px;
+    font-size: 1em;
+    text-align: left;
 }
 
-.aqua-color{
-    background-color:aqua;
+
+/*Following/Follower list */
+.follow_list {
+    color: white;
+    margin-bottom: 8px;
 }
 
-.no-cursor{
-    color: transparent !important;
-    text-shadow: 0px 0px 0px black;
-    background-color: red !important;
-}
+
+
+
+
+
+/*!*Nav Bar*!*/
+/*.oval-active-nav-pill .nav-link.active {*/
+/*    border-radius: 50px; !* Use a large value to create an oval shape *!*/
+/*    background-color: black !important;*/
+/*}*/
+
+/*.gold-background {*/
+/*    background-color: #FFC000;*/
+/*    padding-top: 4px;*/
+/*    padding-bottom: 4px;*/
+/*}*/
+
+/*.black-text .nav-link {*/
+/*    color: black; !* Set the desired text color (black in this case) *!*/
+/*}*/
+
+/*.black-text .nav-link:hover {*/
+/*    color: white; !* Set the desired text color (black in this case) *!*/
+/*}*/
+
+/*.no-padding-left {*/
+/*    padding-left: 0px !important;*/
+/*}*/
+
+/*.no-padding {*/
+/*    padding: 0;*/
+/*}*/
+
+/*.page-padding {*/
+/*    padding: 20px*/
+/*}*/
+
+/*.page-padding-top{*/
+/*    padding-top: 20px;*/
+/*}*/
+
+/*.small-margin-top{*/
+/*    margin-top: 4px !important;*/
+/*}*/
+
+/*.small-margin-bottom{*/
+/*    margin-bottom:4px !important;*/
+/*}*/
+
+/*.yellow-color {*/
+/*    background-color: yellow;*/
+/*}*/
+
+/*.green-color {*/
+/*    background-color: green;*/
+/*}*/
+
+/*.aqua-color{*/
+/*    background-color:aqua;*/
+/*}*/
+
+/*.no-cursor{*/
+/*    color: transparent !important;*/
+/*    text-shadow: 0px 0px 0px black;*/
+/*    background-color: red !important;*/
+/*}*/
+
+/*!*Search Page CSS*!*/
+/*.title-size{*/
+/*    font-size: 20px;*/
+/*}*/
+
+/*.margin-thumbnail{*/
+/*    margin-right: 20px;*/
+/*}*/
+
+/*.link-styling{*/
+/*    text-decoration:none;*/
+/*    color: black;*/
+/*}*/
+
+/*.link-styling:hover{*/
+/*    text-decoration:underline;*/
+/*    color: black;*/
+/*}*/
+
+/*.font-bold{*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*.margin-20-top {*/
+/*    margin-top: 20px;*/
+/*}*/

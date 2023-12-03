@@ -1,35 +1,58 @@
 import NavBar from "./navBar";
+import React, {useState, useEffect} from "react";
+import { useParams } from "react-router";
+import * as client from "../client";
+
 import './index.css'
 function BookDetails() {
+   const [book, setBook] = useState (null);
+   const {bookId} = useParams();
+
+   const fetchBook = async () => {
+      const book = await client.findBookById(bookId);
+      setBook(book);
+   };
+
+   useEffect(() =>{
+      fetchBook();
+   }, []);
     return(
        <div>
          <NavBar/>
          <div className='page-padding'> 
-          <h1>Book Details</h1>
+          {/* <h1>Book Details {bookId}</h1> */}
+          {/* <pre>{JSON.stringify(book, null, 2)}</pre> */}
           {/* Grid for book, book description and similar book recs */}
             <div>
-               <div class="row">
-                  <div class="col-2 yellow-color">
-                     Book image <br/>
-                     <button className="btn btn-success">Want to read</button>
+               {book && (
+                  <div class="row">
+                  <div class="col-2 text-center">
+                     <img src={book.imageLinks ? book.imageLinks.smallThumbnail : ''} class = "img-fluid"/><br/>
+                     <button className="btn btn-success margin-20-top">Want to read</button>
                   </div>
-                  <div class="col-6 green-color">
-                     <h2>Book Title</h2>
-                     <h5>Author Name</h5>
-                     <h6>Rating</h6>
-                     <div class="form-floating">
-                        <input type="text" readonly class="form-control-plaintext no-cursor" id="floatingPlaintextInput" placeholder="name@example.com" value="This is where the book description will live." rows="10"/>
-                     </div>
+                  <div class="col">
+                     <h2 className="font-bold">{book.title}</h2>
+                     <h5>{book.authors[0]}</h5>
+                     <h6>Rating: {book.averageRating ? book.averageRating: "Unknown"}</h6><hr/>
+                     <p dangerouslySetInnerHTML={{ __html: book.description }} /><hr/>
+                     <p>Genre: {book.categories[0]}</p>
 
-                     <p>Genre it falls under (maybe like 3?)</p>
-                     <p>Book details like page number, publication date, edition</p>
+                     {/* Book details like page number, publication date, edition */}
+                     <p>
+                        Page Number: {book.pageCount}<br/>
+                        Publisher: {book.publisher}<br/>
+                        Publication Date: {book.publishedDate}<br/>
+                        ISBN: {book.industryIdentifiers[0].identifier}<br/>
+                        Print Type: {book.printType}
+
+                     </p>
                      
                   </div>
-                  <div class="col aqua-color">
-                     <h6>Similar books</h6>
-                     {/*put similar books here. maybe three or 4 ?? */} 
-                  </div>
+                  
                </div>
+
+               )}
+               
             </div>
 
             {/* Here we have a grid for user and their review */}
