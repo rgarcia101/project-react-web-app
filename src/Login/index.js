@@ -1,5 +1,5 @@
 import { useState } from "react";
-import * as client from "../client";
+import * as client from "../users/client";
 import Navigation from "../Navigation";
 import { Link } from "react-router-dom";
 import './index.css';
