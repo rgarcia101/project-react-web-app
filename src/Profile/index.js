@@ -8,12 +8,6 @@ import { useNavigate } from "react-router-dom";
 function Profile() {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const [profile, setProfile] = useState(null);
-
-  const [editFirstName, setEditFirstName] = useState(false);
-  const [editLastName, setEditLastName] = useState(false);
-  const [newFirstName, setNewFirstName] = useState("");
-  const [newLastName, setNewLastName] = useState("");
-
   const navigate = useNavigate();
   const fetchAccount = async () => {
     const profile = await client.account();
