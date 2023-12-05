@@ -1,11 +1,33 @@
 import "../index.css";
 import Navigation from "../Navigation";
 import {BsFillPersonFill} from "react-icons/bs";
+import * as client from "../users/client";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const [profile, setProfile] = useState(null);
+
+  const [editFirstName, setEditFirstName] = useState(false);
+  const [editLastName, setEditLastName] = useState(false);
+  const [newFirstName, setNewFirstName] = useState("");
+  const [newLastName, setNewLastName] = useState("");
+
+  const navigate = useNavigate();
+  const fetchAccount = async () => {
+    const profile = await client.account();
+    setProfile(profile);
+  };
+  useEffect(() => {
+    fetchAccount();
+  }, []);
+
+
   return (
       <div>
         <Navigation />
+        {profile && (
         <div className="wd-grid-col-wide-column wd-general">
           <div className="wd-grid-row">
             <div className="wd-grid-col-narrow-column wd-general">
@@ -14,7 +36,7 @@ function Profile() {
             <div className="wd-grid-col-wide-column wd-general">
               <div>
                 <span>
-                  <h4>Bookworm22</h4>
+                  <h4>{profile.username}</h4>
                 </span>
               </div>
               <hr/>
@@ -22,17 +44,17 @@ function Profile() {
                 <tbody>
                 <tr >
                   <td>First Name</td>
-                  <td>Katie</td>
+                  <td>{profile.firstName}</td>
                   <td>EDIT BUTTON</td>
                 </tr>
                 <tr >
                   <td>Last Name</td>
-                  <td>Davenport</td>
+                  <td>{profile.lastName}</td>
                   <td>EDIT BUTTON</td>
                 </tr>
                 <tr >
                   <td>Activity</td>
-                  <td>Member since October 2023</td>
+                  <td>Member since {new Date(profile.start_date).toLocaleDateString('en-US', options)}</td>
                   <td></td>
                 </tr>
                 </tbody>
@@ -40,6 +62,7 @@ function Profile() {
 
             </div>
           </div>
+          
           <div className="wd-grid-row wd-general">
             <h5>Bookshelf</h5>
             <table className="table-profile">
@@ -64,6 +87,7 @@ function Profile() {
             </table>
           </div>
         </div>
+        )}
         <div className="wd-grid-col-right-panel">
           <div className="wd-grid-row wd-general">
             <h6>
