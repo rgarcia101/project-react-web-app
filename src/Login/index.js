@@ -33,8 +33,8 @@ function Login() {
       <div>
         <Navigation/>
 
-        <div className='page-padding center'>
-          <h1>Sign In</h1>
+        <div className='page-padding'>
+          <h1>Login</h1>
           {error && <div className="alert alert-danger">{error.message}</div>}
           <label for="username-form-control" className="form-label">Username</label>
           <input
@@ -55,14 +55,14 @@ function Login() {
                 onChange={(e) => setCredentials({...credentials, password: e.target.value})}
 
             />
+            
             <button
                 onClick={signin}
                 className="btn btn-dark rounded-pill w-25 margin-top-small">
-                    Sign In
-            </button>
+                    Login
+            </button><br/>
             
             <Link to="../signup">Not an existing user? Sign up here.</Link>
-
         </div>
      </div>
   );
