@@ -8,14 +8,49 @@ import { useNavigate } from "react-router-dom";
 function Profile() {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const [profile, setProfile] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedFirstName, setEditedFirstName] = useState('');
+  const [editedLastName, setEditedLastName] = useState('');
   const navigate = useNavigate();
   const fetchAccount = async () => {
     const profile = await client.account();
     setProfile(profile);
+    setEditedFirstName(profile.firstName || '');
+    setEditedLastName(profile.lastName || '');
   };
   useEffect(() => {
     fetchAccount();
   }, []);
+
+  const toggleEditMode = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleFirstNameChange = (e) => {
+    setEditedFirstName(e.target.value);
+  };
+  
+  const handleLastNameChange = (e) => {
+    setEditedLastName(e.target.value);
+  };
+
+  const saveChanges = async () => {
+    // Update the profile with edited values
+    const updatedProfile = {
+      ...profile,
+      firstName: editedFirstName,
+      lastName: editedLastName,
+    };
+  
+    // Call the client function to update the user
+    await client.updateUser(updatedProfile);
+  
+    // Fetch the updated profile after saving changes
+    fetchAccount();
+  
+    // Exit edit mode
+    setIsEditing(false);
+  };
 
 
   return (
@@ -28,6 +63,15 @@ function Profile() {
               <BsFillPersonFill className="wd-icon" style={{ float: "right", fontSize: "11em", color: "grey"}} />
             </div>
             <div className="wd-grid-col-wide-column wd-general">
+            {isEditing ? (
+              <button className="btn btn-success float-end" onClick={saveChanges}>
+                Save
+              </button>
+            ) : (
+              <button className="btn btn-dark float-end" onClick={toggleEditMode}>
+                Edit User Information
+              </button>
+            )}
               <div>
                 <span>
                   <h4>{profile.username}</h4>
@@ -38,13 +82,31 @@ function Profile() {
                 <tbody>
                 <tr >
                   <td>First Name</td>
-                  <td>{profile.firstName}</td>
-                  <td>EDIT BUTTON</td>
+                  <td>{isEditing ? (
+                      <input
+                        type="text"
+                        value={editedFirstName}
+                        onChange={handleFirstNameChange}
+                      />
+                    ) : (
+                      profile.firstName
+                    )}
+                  </td>
+                  {/* <td>EDIT BUTTON</td> */}
                 </tr>
                 <tr >
                   <td>Last Name</td>
-                  <td>{profile.lastName}</td>
-                  <td>EDIT BUTTON</td>
+                  <td>{isEditing ? (
+                        <input
+                          type="text"
+                          value={editedLastName}
+                          onChange={handleLastNameChange}
+                        />
+                      ) : (
+                        profile.lastName
+                      )}
+                  </td>
+                  {/* <td>EDIT BUTTON</td> */}
                 </tr>
                 <tr >
                   <td>Activity</td>
