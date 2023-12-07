@@ -1,11 +1,9 @@
 import './index.css';
-import NavBar from './navBar';
 import {useEffect, useState} from "react";
 import {API_KEY} from "../client";
 import * as client from "../client";
 import { Link, useParams, useNavigate } from 'react-router-dom';
-
-
+import Navigation from "../Navigation";
 
 function Search() {
   const {search} = useParams();
@@ -31,7 +29,7 @@ function Search() {
 
   return(
       <div>
-        <NavBar/>
+        <Navigation/>
         <div className='page-padding'>
             <label for="inputSearch" className="form-label"><h3>Search</h3></label>
             <form className="row">

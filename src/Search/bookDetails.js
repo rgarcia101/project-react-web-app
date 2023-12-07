@@ -1,4 +1,4 @@
-import NavBar from "./navBar";
+import Navigation from "../Navigation";
 import React, {useState, useEffect} from "react";
 import { useParams } from "react-router";
 import * as client from "../client";
@@ -18,7 +18,7 @@ function BookDetails() {
    }, []);
     return(
        <div>
-         <NavBar/>
+         <Navigation/>
          <div className='page-padding'> 
           {/* <h1>Book Details {bookId}</h1> */}
           {/* <pre>{JSON.stringify(book, null, 2)}</pre> */}

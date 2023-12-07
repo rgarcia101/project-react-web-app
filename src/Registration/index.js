@@ -1,9 +1,9 @@
+import LoginBar from "../Login/loginBar";
 import Navigation from "../Navigation";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as client from "../users/client";
 import "./index.css";
-
 
 function Registration() {
   const [error, setError] = useState("");
@@ -22,7 +22,7 @@ function Registration() {
   
   return(
       <div>
-        <Navigation/>
+        <LoginBar/>
         <div className="page-padding">
         <h1>Sign up</h1>
         {error && <div>{error}</div>}
