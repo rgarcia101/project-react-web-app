@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import * as client from "../users/client";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { BsBookFill } from "react-icons/bs";
 import './index.css';
@@ -16,6 +17,11 @@ function Navigation() {
 const isTabActive = (tabPath) => {
   const currentBasePath = location.pathname.split('/')[1].toLowerCase(); 
   return currentBasePath === tabPath.toLowerCase();
+};
+  
+const signout = async () => {
+    await client.signout();
+    navigate("/login");
 };
 
 
@@ -42,7 +48,7 @@ const isTabActive = (tabPath) => {
           </button>
           <button type="button" 
                   className={`btn ${isTabActive('') ? 'oval-active-nav-pill nav-link active' : 'btn-warning'}`}
-                  onClick={() => navigate('/')}>
+                  onClick={signout}>
             Logout
           </button>
         </div>
