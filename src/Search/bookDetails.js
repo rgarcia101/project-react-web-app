@@ -1,7 +1,7 @@
 import Navigation from "../Navigation";
 import React, {useState, useEffect} from "react";
 import { useParams } from "react-router";
-import * as client from "../client";
+import * as client from "../client";  // this is where functions are
 
 import './index.css'
 function BookDetails() {
@@ -12,6 +12,15 @@ function BookDetails() {
       const book = await client.findBookById(bookId);
       setBook(book);
    };
+
+   const handleSaveBook = async () => {
+     await client.saveBook({
+       apiId: bookId,
+       title: book.title,
+       author: book.author,
+       thumbnail: book.imageLinks ? book.imageLinks.smallThumbnail : ''
+     })
+   }
 
    useEffect(() =>{
       fetchBook();
@@ -28,7 +37,9 @@ function BookDetails() {
                   <div class="row">
                   <div class="col-2 text-center">
                      <img src={book.imageLinks ? book.imageLinks.smallThumbnail : ''} class = "img-fluid"/><br/>
-                     <button className="btn btn-success margin-20-top">Want to read</button>
+                     <button className="btn btn-success margin-20-top"
+                             onClick={handleSaveBook}
+                     >Want to read</button>
                   </div>
                   <div class="col">
                      <h2 className="font-bold">{book.title}</h2>

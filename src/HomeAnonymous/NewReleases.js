@@ -1,4 +1,4 @@
-import * as client from "../client";
+import * as client from "./client";
 import {useEffect, useState} from "react";
 
 
