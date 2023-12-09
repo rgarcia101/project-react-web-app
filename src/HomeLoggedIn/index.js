@@ -5,13 +5,11 @@ import * as client from "../users/client";
 import * as client2 from "../Profile/client";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 function HomeLoggedIn() {
   const [profile, setProfile] = useState(null);
   const [allBooks, setAllBooks] = useState([]);
   const [booksWithPosts, setBooksWithPosts] = useState([]);
-  const navigate = useNavigate();
   const navigate = useNavigate();
 
   const fetchAccount = async () => {
@@ -21,10 +19,6 @@ function HomeLoggedIn() {
   useEffect(() => {
     fetchAccount();
   }, []);
-
-  const handleBookClick = (bookId) => {
-    navigate(`/details/${bookId}`);
-  };
 
   const handleBookClick = (bookId) => {
     navigate(`/details/${bookId}`);
