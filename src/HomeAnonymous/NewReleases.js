@@ -44,7 +44,7 @@ function NewReleases(){
           <tr>
             {books.map((book) => (
                 <td key={book.id}>
-                  <div onClick={() => handleBookClick(book._id)}>
+                  <div onClick={() => handleBookClick(book.id)}>
                     {book.volumeInfo.imageLinks && (
                         <img
                             src={book.volumeInfo.imageLinks.smallThumbnail}

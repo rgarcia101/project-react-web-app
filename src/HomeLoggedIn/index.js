@@ -72,7 +72,7 @@ function HomeLoggedIn() {
                 <tr>
                   {allBooks && allBooks.map((book) => (
                       <td key={book._id}>
-                        <div onClick={() => handleBookClick(book._id)}>
+                        <div onClick={() => handleBookClick(book.apiId)}>
                           {book.image && (
                               <img
                                   src={book.image}
