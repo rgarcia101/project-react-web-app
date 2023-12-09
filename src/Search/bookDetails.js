@@ -115,10 +115,9 @@ function BookDetails() {
             <div class="row">
                   <div class="col-2 yellow-color">
                      
-                     <h6>User Image, Username, # of reviews, follower count, follow button</h6>
+                     <h6>Username</h6>
                   </div>
                   <div class="col green-color">
-                     <p>star rating here or something</p>
                      <p>User Review here</p>
                   </div>
                </div>
