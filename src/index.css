@@ -31,6 +31,10 @@ code {
   padding: 5px 10px;
 }
 
+.button {
+  margin-right: 5px;
+}
+
 /*Banner backgrounds */
 .gold-background {
   background-color: #FFC000;

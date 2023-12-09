@@ -1,9 +1,9 @@
 import Navigation from "../Navigation";
 import React, {useState, useEffect} from "react";
 import { useParams } from "react-router";
-import * as client from "../client";    // book details from API
-import * as client2 from "./client";    // interacting with back end
-import * as client3 from "../users/client";
+import * as apiClient from "../booksapi/client";
+import * as booksClient from "../books/client";
+import * as usersClient from "../users/client";
 
 import './index.css'
 function BookDetails() {
@@ -14,7 +14,7 @@ function BookDetails() {
    // TODO: I want to add the logged in user to the book schema so that we know who added it.
   // When we click on a book we need to keep track of who clicked.
   const fetchAccount = async () => {
-    const profile = await client3.account();
+    const profile = await usersClient.account();
     setProfile(profile);
   };
   useEffect(() => {
@@ -23,16 +23,10 @@ function BookDetails() {
 
 
    const fetchBook = async () => {
-      const book = await client.findBookById(bookId);
+      const book = await apiClient.findBookById(bookId);
       setBook(book);
    };
 
-   // NOT WORKING AS EXPECTED.
-  // const handleSaveBookshelfItem = async () => {
-  //   if (profile && book) {
-  //     await client2.saveBookshelfItem(profile._id, book._id);
-  //   }
-  // };
 
   // Save book to database
   const handleSaveBook = async () => {
@@ -49,7 +43,7 @@ function BookDetails() {
       };
       // save bookshelf item
 
-      await client2.saveBook(savedBook);
+      await booksClient.saveBook(savedBook);
     }
   };
    useEffect(() =>{
@@ -60,10 +54,7 @@ function BookDetails() {
     return(
        <div>
          <Navigation/>
-         <div className='page-padding'> 
-          {/* <h1>Book Details {bookId}</h1> */}
-          {/* <pre>{JSON.stringify(book, null, 2)}</pre> */}
-          {/* Grid for book, book description and similar book recs */}
+         <div className='page-padding'>
             <div>
                {book && (
                   <div class="row">
