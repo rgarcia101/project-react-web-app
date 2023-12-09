@@ -4,11 +4,13 @@ import Navigation from "../Navigation";
 import * as client from "../users/client";
 import * as client2 from "../Profile/client";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function HomeLoggedIn() {
   const [profile, setProfile] = useState(null);
   const [allBooks, setAllBooks] = useState([]);
   const [booksWithPosts, setBooksWithPosts] = useState([]);
+  const navigate = useNavigate();
 
   const fetchAccount = async () => {
     const profile = await client.account();
@@ -18,10 +20,15 @@ function HomeLoggedIn() {
     fetchAccount();
   }, []);
 
+  const handleBookClick = (bookId) => {
+    navigate(`/details/${bookId}`);
+  };
+
   const fetchBooks = async () => {
     if (profile) {
       try {
         const allBooksData = await client2.findAllBooks();
+        
         // Filter all books based on the current user's ID
         const userBooks = allBooksData.filter(
             (book) => book.user === profile._id
@@ -65,7 +72,7 @@ function HomeLoggedIn() {
                 <tr>
                   {allBooks && allBooks.map((book) => (
                       <td key={book._id}>
-                        <div>
+                        <div onClick={() => handleBookClick(book._id)}>
                           {book.image && (
                               <img
                                   src={book.image}
