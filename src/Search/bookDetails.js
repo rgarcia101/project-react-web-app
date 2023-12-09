@@ -27,11 +27,12 @@ function BookDetails() {
       setBook(book);
    };
 
-  const handleSaveBookshelfItem = async () => {
-    if (profile && book) {
-      await client2.saveBookshelfItem(profile._id, book._id);
-    }
-  };
+   // NOT WORKING AS EXPECTED.
+  // const handleSaveBookshelfItem = async () => {
+  //   if (profile && book) {
+  //     await client2.saveBookshelfItem(profile._id, book._id);
+  //   }
+  // };
 
   // Save book to database
   const handleSaveBook = async () => {

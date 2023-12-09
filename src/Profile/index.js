@@ -229,29 +229,3 @@ function Profile() {
 }
 
 export default Profile;
-
-
-
-        {/*<div className="wd-grid-row wd-general">*/}
-        {/*  <h5>Bookshelf</h5>*/}
-        {/*  <table className="table-profile">*/}
-        {/*    <tr className="table-profile-header-row">*/}
-        {/*      <th scope="col">Title</th>*/}
-        {/*      <th scope="col">Author</th>*/}
-        {/*      <th scope="col">Review</th>*/}
-        {/*      <th scope="col">Review Actions</th>*/}
-        {/*    </tr>*/}
-        {/*    <tr>*/}
-        {/*      <td>Caleb's Crossing</td>*/}
-        {/*      <td>Geraldine Brooks</td>*/}
-        {/*      <td>Great Book</td>*/}
-        {/*      <td>EDIT BUTTON, DELETE BUTTON</td>*/}
-        {/*    </tr>*/}
-        {/*    <tr>*/}
-        {/*      <td>Team of Rivals</td>*/}
-        {/*      <td>Doris Kearns Goodwin</td>*/}
-        {/*      <td></td>*/}
-        {/*      <td>ADD BUTTON</td>*/}
-        {/*    </tr>*/}
-        {/*  </table>*/}
-        {/*</div><br/>*/}
