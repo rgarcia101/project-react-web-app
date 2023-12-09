@@ -18,4 +18,8 @@ export const updateBook = async (book) => {
   return response.data;
 };
 
-
+export const saveBook = async (book) => {
+  const response = await axios.post(`${BOOKS_API}`,
+      book);
+  return response.data;
+};

@@ -1,10 +1,10 @@
 import "../index.css";
 import Navigation from "../Navigation";
-import * as client from "../users/client";
-import * as client2 from "./client";
+import * as usersClient from "../users/client";
+import * as booksClient from "../books/client";
+import * as followsClient from "../follows/client";
 import React, { useState, useEffect } from "react";
 import { BsFillPersonFill, BsPencilSquare } from "react-icons/bs";
-
 
 function Profile() {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -13,9 +13,13 @@ function Profile() {
   const [editedFirstName, setEditedFirstName] = useState('');
   const [editedLastName, setEditedLastName] = useState('');
   const [books, setBooks] = useState([]);
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
 
+
+  // PROFILE FUNCTIONS
   const fetchAccount = async () => {
-    const profile = await client.account();
+    const profile = await usersClient.account();
     setProfile(profile);
     setEditedFirstName(profile.firstName || '');
     setEditedLastName(profile.lastName || '');
@@ -45,7 +49,7 @@ function Profile() {
     };
   
     // Call the client function to update the user
-    await client.updateUser(updatedProfile);
+    await usersClient.updateUser(updatedProfile);
   
     // Fetch the updated profile after saving changes
     fetchAccount();
@@ -54,11 +58,13 @@ function Profile() {
     setIsEditing(false);
   };
 
+
+  // BOOKS FUNCTIONS
   // TODO: Here we are fetching all books and filtering by profile id. Ideally we should use a findAllBooksById function.
   const fetchBooks = async () => {
     // Check if profile is available before fetching books
     if (profile) {
-      const allBooks = await client2.findAllBooks();            // Ideally change to findAllBooksByUserId
+      const allBooks = await booksClient.findAllBooks();            // Ideally change to findAllBooksByUserId
       // Filter books based on the current user's ID
       const userBooks = allBooks.filter(book => book.user === profile._id);
       setBooks(userBooks);
@@ -69,25 +75,44 @@ function Profile() {
   }, [profile]);
 
 
-  // Add Review
-  const handleReviewChange = async (bookId, updatedReview) => {
-    const updatedBook = {
-      ...books.find(book => book._id === bookId),
-      review: updatedReview,
-    };
+  // REVIEWS FUNCTIONS - WIP
+  // const handleReviewChange = async (bookId, updatedReview) => {
+  //   const updatedBook = {
+  //     ...books.find(book => book._id === bookId),
+  //     review: updatedReview,
+  //   };
+  //
+  //   // Call the client function to update the book with the updated review
+  //   await booksClient.updateBook(updatedBook);
+  //
+  //   // Fetch the updated books after saving changes
+  //   fetchBooks();
+  // };
 
-    // Call the client function to update the book with the updated review
-    await client2.updateBook(updatedBook);
 
-    // Fetch the updated books after saving changes
-    fetchBooks();
+  // FOLLOWS FUNCTIONS
+  const fetchFollowers = async () => {
+    const followers = await followsClient.findFollowersOfUser(profile._id);
+    setFollowers(followers);
   };
+  const fetchFollowing = async () => {
+    const following = await followsClient.findFollowedUsersByUser(profile._id);
+    setFollowing(following);
+  };
+  const alreadyFollowing = () => {
+    return followers.some((follows) => {
+      return follows.follower._id === profile._id;
+    });
+  };
+  useEffect(() => {
+    fetchFollowers();
+    fetchFollowing();
+  }, [profile._id]);
 
 
   return (
       <div>
         <Navigation />
-
         {profile && (
         <div className="wd-grid-col-wide-column wd-general">
           <div className="wd-grid-row">
@@ -108,6 +133,8 @@ function Profile() {
                 <span>
                   <h4>{profile.username}</h4>
                 </span>
+                <button className="btn btn-success button">Follow</button>
+                <button className="btn btn-danger button">Unfollow</button>
               </div>
               <hr/>
               <table className="table">
@@ -150,7 +177,6 @@ function Profile() {
 
             </div>
           </div><br/>
-
           <h4>NOTE: Author could have same table but just expose biography</h4>
 
           <br/>

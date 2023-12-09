@@ -1,8 +1,8 @@
 import "../index.css";
 import NewReleases from "../HomeAnonymous/NewReleases";
 import Navigation from "../Navigation";
-import * as client from "../users/client";
-import * as client2 from "../Profile/client";
+import * as usersClient from "../users/client";
+import * as booksClient from "../books/client";
 import { useState, useEffect } from "react";
 
 function HomeLoggedIn() {
@@ -11,7 +11,7 @@ function HomeLoggedIn() {
   const [booksWithPosts, setBooksWithPosts] = useState([]);
 
   const fetchAccount = async () => {
-    const profile = await client.account();
+    const profile = await usersClient.account();
     setProfile(profile);
   };
   useEffect(() => {
@@ -21,7 +21,7 @@ function HomeLoggedIn() {
   const fetchBooks = async () => {
     if (profile) {
       try {
-        const allBooksData = await client2.findAllBooks();
+        const allBooksData = await booksClient.findAllBooks();
         // Filter all books based on the current user's ID
         const userBooks = allBooksData.filter(
             (book) => book.user === profile._id

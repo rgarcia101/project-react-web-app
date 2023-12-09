@@ -1,7 +1,7 @@
 import './index.css';
 import {useEffect, useState} from "react";
-import {API_KEY} from "../client";
-import * as client from "../client";
+import {API_KEY} from "../booksapi/client";
+import * as client from "../booksapi/client";
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import Navigation from "../Navigation";
 
