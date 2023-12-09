@@ -4,7 +4,7 @@ import * as client from "../users/client";
 import * as client2 from "./client";
 import React, { useState, useEffect } from "react";
 import { BsFillPersonFill, BsPencilSquare } from "react-icons/bs";
-import { useState, useEffect } from "react";
+//import { useState, useEffect } from "react";
 import { useNavigate, useParams} from "react-router-dom";
 
 function Profile() {
