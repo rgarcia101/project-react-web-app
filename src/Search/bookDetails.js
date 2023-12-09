@@ -71,7 +71,7 @@ function BookDetails() {
                     <img src={book.imageLinks ? book.imageLinks.smallThumbnail : ''} class = "img-fluid"/><br/>
                     <button className="btn btn-success margin-20-top" onClick={() => {
                       handleSaveBook();
-                      handleSaveBookshelfItem();
+                      // handleSaveBookshelfItem();
                     }}>
                       Want to read
                     </button>
