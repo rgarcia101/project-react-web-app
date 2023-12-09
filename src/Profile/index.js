@@ -92,7 +92,7 @@ function Profile() {
   // };
 
 
-  // FOLLOWS FUNCTIONS - NOT SURE IF IT IS DETECTING ID AS USER
+
   const followUser = async () => {
     const status = await followsClient.userFollowsUser(profile._id);
   };
@@ -103,21 +103,18 @@ function Profile() {
     const followers = await followsClient.findFollowersOfUser(profile._id);
     setFollowers(followers);
   };
+
   const fetchFollowing = async () => {
     const following = await followsClient.findFollowedUsersByUser(profile._id);
     setFollowing(following);
   };
+
   // const alreadyFollowing = () => {
   //   return followers.some((follows) => {
   //     return follows.follower._id === currentUser._id;
   //   });
   // };
-  useEffect(() => {
-    if (profile && profile._id) {
-      fetchFollowers();
-      fetchFollowing();
-    }
-  }, [profile]);
+
 
 
   return (
