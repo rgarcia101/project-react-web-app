@@ -1,9 +1,10 @@
 import "../index.css";
 import Navigation from "../Navigation";
-import {BsFillPersonFill} from "react-icons/bs";
 import * as client from "../users/client";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import * as client2 from "./client";
+import React, { useState, useEffect } from "react";
+import { BsFillPersonFill, BsPencilSquare } from "react-icons/bs";
+
 
 function Profile() {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -11,7 +12,8 @@ function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [editedFirstName, setEditedFirstName] = useState('');
   const [editedLastName, setEditedLastName] = useState('');
-  const navigate = useNavigate();
+  const [books, setBooks] = useState([]);
+
   const fetchAccount = async () => {
     const profile = await client.account();
     setProfile(profile);
@@ -52,10 +54,40 @@ function Profile() {
     setIsEditing(false);
   };
 
+  // TODO: Here we are fetching all books and filtering by profile id. Ideally we should use a findAllBooksById function.
+  const fetchBooks = async () => {
+    // Check if profile is available before fetching books
+    if (profile) {
+      const allBooks = await client2.findAllBooks();            // Ideally change to findAllBooksByUserId
+      // Filter books based on the current user's ID
+      const userBooks = allBooks.filter(book => book.user === profile._id);
+      setBooks(userBooks);
+    }
+  };
+  useEffect(() => {
+    fetchBooks();
+  }, [profile]);
+
+
+  // Add Review
+  const handleReviewChange = async (bookId, updatedReview) => {
+    const updatedBook = {
+      ...books.find(book => book._id === bookId),
+      review: updatedReview,
+    };
+
+    // Call the client function to update the book with the updated review
+    await client2.updateBook(updatedBook);
+
+    // Fetch the updated books after saving changes
+    fetchBooks();
+  };
+
 
   return (
       <div>
         <Navigation />
+
         {profile && (
         <div className="wd-grid-col-wide-column wd-general">
           <div className="wd-grid-row">
@@ -110,40 +142,62 @@ function Profile() {
                 </tr>
                 <tr >
                   <td>Activity</td>
-                  <td>Member since {new Date(profile.start_date).toLocaleDateString('en-US', options)}</td>
+                  <td>Member since {new Date(profile.startDate).toLocaleDateString('en-US', options)}</td>
                   <td></td>
                 </tr>
                 </tbody>
               </table>
 
             </div>
-          </div>
-          
-          <div className="wd-grid-row wd-general">
-            <h5>Bookshelf</h5>
-            <table className="table-profile">
-              <tr className="table-profile-header-row">
-                <th scope="col">Title</th>
-                <th scope="col">Author</th>
-                <th scope="col">Review</th>
-                <th scope="col">Review Actions</th>
-              </tr>
-              <tr>
-                <td>Caleb's Crossing</td>
-                <td>Geraldine Brooks</td>
-                <td>Great Book</td>
-                <td>EDIT BUTTON, DELETE BUTTON</td>
-              </tr>
-              <tr>
-                <td>Team of Rivals</td>
-                <td>Doris Kearns Goodwin</td>
-                <td></td>
-                <td>ADD BUTTON</td>
-              </tr>
-            </table>
-          </div>
+          </div><br/>
+
+          <h4>NOTE: Author could have same table but just expose biography</h4>
+
+          <br/>
+
+          {/*BOOKS TABLE */}
+          <h5>Bookshelf</h5>
+          <table className="table">
+            <thead>
+            <tr>
+              <th className="table-dark-blue-row">Title and Author</th>
+              <th className="table-dark-blue-row">Publisher</th>
+              <th className="table-dark-blue-row">Review</th>
+            </tr>
+            </thead>
+            <tbody>
+            {books && books.map((book) => (
+                <tr key={book._id}>
+                  <td><strong>{book.title}</strong>, {book.author}</td>
+                  <td>{book.publisher}</td>
+                  <td>{book.review}</td>
+                </tr>
+            ))}
+            </tbody>
+          </table><br/><br/>
+
+          <h5>SAMPLE TABLE FOR AUTHOR (Note: They could add book to bookshelf and so it could show up here) </h5>
+          <table className="table">
+            <thead>
+            <tr>
+              <th className="table-dark-blue-row">Post Audience Has This Book</th>
+              <th className="table-dark-blue-row">Post</th>
+            </tr>
+            </thead>
+            <tbody>
+            {books && books.map((book) => (
+                <tr key={book._id}>
+                  <td>{book.title}</td>
+                  <td>{book.post}</td>
+                </tr>
+            ))}
+            </tbody>
+          </table>
+
+
         </div>
         )}
+
         <div className="wd-grid-col-right-panel">
           <div className="wd-grid-row wd-general">
             <h6>

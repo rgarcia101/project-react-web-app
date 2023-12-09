@@ -61,12 +61,6 @@ code {
   color: red;
 }
 
-
-
-
-
-
-
 /*HomeAnonymous: Index */
 .large-banner-text {
   font-size: 1.4em;
@@ -78,6 +72,19 @@ code {
   margin-bottom: 30px;
 }
 
+/*HomeLoggedIn: Index */
+.book-item {
+  margin-right: 10px; /* Adjust the value as needed */
+  margin-bottom: 10px; /* Adjust the value as needed */
+}
+
+.book-details {
+  word-wrap: break-word;
+}
+
+.styles-for-posts {
+ align-items: flex-start;
+}
 
 /*Profile: Index*/
 /*  Page layout*/
@@ -95,9 +102,18 @@ code {
   background-color: #004225;
   color: white;
   height: 100vh;
+  align-items: flex-start;
 }
 
 /*Table formatting*/
+.table-dark-blue-row {
+  background: #004080 !important;
+  color: white !important;
+}
+
+
+
+
 .table-profile {
   width: 100%;
 }
@@ -107,13 +123,13 @@ code {
 }
 
 
-.table-profile-header-row th {
-  background-color: #004080;
-  color: white;
-  padding: 5px;
-  font-size: 1em;
-  text-align: left;
-}
+/*.table-profile-header-row th {*/
+/*  background-color: #004080;*/
+/*  color: white;*/
+/*  padding: 5px;*/
+/*  font-size: 1em;*/
+/*  text-align: left;*/
+/*}*/
 
 
 /*Following/Follower list */
