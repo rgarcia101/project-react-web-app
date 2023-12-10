@@ -4,16 +4,22 @@ import * as client from "../users/client";
 import * as client2 from "./client";
 import React, { useState, useEffect } from "react";
 import { BsFillPersonFill, BsPencilSquare } from "react-icons/bs";
-
+//import { useState, useEffect } from "react";
+import { useNavigate, useParams} from "react-router-dom";
 
 function Profile() {
+  const { id } = useParams();
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const [profile, setProfile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedFirstName, setEditedFirstName] = useState('');
   const [editedLastName, setEditedLastName] = useState('');
   const [books, setBooks] = useState([]);
-
+  const navigate = useNavigate();
+  const findUserById = async (id) => {
+    const user = await client.findUserById(id);
+    setProfile(user);
+  };
   const fetchAccount = async () => {
     const profile = await client.account();
     setProfile(profile);
@@ -21,7 +27,11 @@ function Profile() {
     setEditedLastName(profile.lastName || '');
   };
   useEffect(() => {
-    fetchAccount();
+    if (id) {
+      findUserById(id);
+    } else {
+  fetchAccount();
+    }
   }, []);
 
   const toggleEditMode = () => {
