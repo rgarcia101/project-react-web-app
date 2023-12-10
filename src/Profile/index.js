@@ -113,7 +113,7 @@ function Profile() {
   //   return followers.some((follows) => {
   //     return follows.follower._id === currentUser._id;
   //   });
-  // };
+  // }
 
 
 
