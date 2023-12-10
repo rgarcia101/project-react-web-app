@@ -7,6 +7,7 @@ import React, { useState, useEffect } from "react";
 import { BsFillPersonFill, BsPencilSquare } from "react-icons/bs";
 import { useParams } from 'react-router-dom';
 
+
 function Profile() {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const [profile, setProfile] = useState(null);
@@ -91,8 +92,7 @@ function Profile() {
   //   fetchBooks();
   // };
 
-
-
+  // FOLLOWS FUNCTIONS - NOT SURE IF IT IS DETECTING ID AS USER
   const followUser = async () => {
     const status = await followsClient.userFollowsUser(profile._id);
   };
@@ -114,6 +114,7 @@ function Profile() {
   //     return follows.follower._id === currentUser._id;
   //   });
   // }
+
 
 
 
