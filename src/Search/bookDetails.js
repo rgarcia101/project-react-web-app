@@ -1,6 +1,7 @@
 import Navigation from "../Navigation";
 import React, {useState, useEffect} from "react";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import * as client from "../client";    // book details from API
 import * as client2 from "./client";    // interacting with back end
 import * as client3 from "../users/client";
@@ -10,6 +11,8 @@ function BookDetails() {
    const [book, setBook] = useState (null);
    const {bookId} = useParams();
    const [profile, setProfile] = useState(null);
+   const [booksWithSameApiId, setBooksWithSameApiId] = useState([]);
+   //const [booksWithDetails, setBooksWithDetails] = useState([]);
 
    // TODO: I want to add the logged in user to the book schema so that we know who added it.
   // When we click on a book we need to keep track of who clicked.
@@ -38,6 +41,131 @@ function BookDetails() {
   //   }
   // };
 
+//   const fetchBooks = async () => {
+//    // Check if profile is available before fetching books
+//    if (profile) {
+//      const allBooks = await client2.findAllBooks();            // Ideally change to findAllBooksByUserId
+//      // Filter books based on the current user's ID
+//      const userBooks = allBooks.filter(book => book.user === profile._id);
+//      setBooks(userBooks);
+//    }
+//  };
+//  useEffect(() => {
+//    fetchBooks();
+//  }, [profile]);
+
+// const fetchBooksWithApi = async () => {
+//    if (book) {
+//       const books = await client2.findAllBooksByApiId(bookId);
+//       setBooksWithSameApiId(books);
+//    }
+// };
+// useEffect(() => {
+//    fetchBooksWithApi();
+//  }, [book]);
+
+
+//________RAQUEL's CODE
+
+// const fetchBooksWithApi = async () => {
+//    try{
+      
+//          const booksWithSameApiId = await client2.findAllBooksByApiId(bookId);
+    
+//          if (!booksWithSameApiId || booksWithSameApiId.length === 0) {
+//           // Handle the case where there are no matching books
+//           console.log("Books not found");
+//           setBooksWithSameApiId([]);
+//           return;
+//          }
+        
+     
+//          // Fetch user and review for each book
+//          const booksWithDetails = await Promise.all(
+//            booksWithSameApiId.map(async (book) => {
+//              const user = await client3.findUserById(book.user);
+//              const username = user ? user.username : 'Unknown';
+//              const review = book.review;
+//              const userProfileLink = `/profile/${book.user}`; // Adjust the route based on your actual route structure
+//              return { ...book.toObject(), username, review, userProfileLink };
+//            })
+//          );
+     
+//          setBooksWithDetails(booksWithDetails);
+//        } catch(error){
+//       setBooksWithDetails([]);
+//    }
+   
+   
+//  };
+
+//  useEffect(() => {
+//    fetchBooksWithApi();
+//  }, []);
+
+const fetchBooksWithApi = async () => {
+   try {
+     const booksWithSameApiId = await client2.findAllBooksByApiId(bookId);
+
+     if (!booksWithSameApiId || booksWithSameApiId.length === 0) {
+       console.log("Books not found");
+       setBooksWithSameApiId([]);
+     } else {
+       setBooksWithSameApiId(booksWithSameApiId);
+     }
+   } catch (error) {
+     console.error('Error fetching books with API ID:', error);
+     setBooksWithSameApiId([]);
+   }
+ };
+
+ useEffect(() => {
+   fetchBooksWithApi();
+ }, []);
+
+// const fetchBooksWithApi = async () => {
+//   try {
+//     const booksWithSameApiId = await client2.findAllBooksByApiId(bookId);
+
+//     if (!booksWithSameApiId || booksWithSameApiId.length === 0) {
+//       console.log("Books not found");
+//       setBooksWithSameApiId([]);
+//     } else {
+//       // Fetch user and review for each book
+//       const booksWithDetails = await Promise.all(
+//         booksWithSameApiId.map(async (book) => {
+//           const user = await client3.findUserById(book.user);
+//           const username = user ? user.username : 'Unknown';
+
+//           const review = book.review;
+//           const userProfileLink = `/profile/${book.user}`;
+
+//           return { ...book.toObject(), username, review, userProfileLink };
+//         })
+//       );
+
+//       setBooksWithSameApiId(booksWithDetails);
+//     }
+//   } catch (error) {
+//     console.error('Error fetching books with API ID:', error);
+//     setBooksWithSameApiId([]);
+//   }
+// };
+
+// useEffect(() => {
+//   fetchBooksWithApi();
+// }, []);
+
+ const getUsernameForUser = async (userId) => {
+   try {
+     const user = await client3.findUserById(userId);
+     return user ? user.username : 'Unknown';
+   } catch (error) {
+     console.error('Error fetching user by ID:', error);
+     return 'Unknown';
+   }
+ };
+
   // Save book to database
   const handleSaveBook = async () => {
     if (book) {
@@ -60,6 +188,8 @@ function BookDetails() {
    useEffect(() =>{
       fetchBook();
    }, []);
+
+
 
 
     return(
@@ -117,16 +247,22 @@ function BookDetails() {
                </div>
                
             </div>
-            <div class="row">
-                  <div class="col-2 yellow-color">
-                     
-                     <h6>User Image, Username, # of reviews, follower count, follow button</h6>
-                  </div>
-                  <div class="col green-color">
-                     <p>star rating here or something</p>
-                     <p>User Review here</p>
-                  </div>
-               </div>
+               {booksWithSameApiId && (booksWithSameApiId.length === 0 ? (
+                  <p>No reviews found.</p>
+                  ) : (
+                     booksWithSameApiId.map((book) => (
+                     <div className="row" key={book._id}>
+                        <div className="col-2 yellow-color">
+                        <h6>
+                           <Link to={`/profile/${book.user}`}>{book.user}</Link>
+                        </h6>
+                        </div>
+                        <div className="col green-color">
+                        <p>{book.review || 'No review available'}</p>
+                        </div>
+                     </div>
+                  )))
+                  )}
             </div>
           </div>
        </div>
