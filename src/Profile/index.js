@@ -5,6 +5,7 @@ import * as booksClient from "../books/client";
 import * as followsClient from "../follows/client";
 import React, { useState, useEffect } from "react";
 import { BsFillPersonFill, BsPencilSquare } from "react-icons/bs";
+import { useParams } from 'react-router-dom';
 
 function Profile() {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -15,6 +16,7 @@ function Profile() {
   const [books, setBooks] = useState([]);
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
+  const { id } = useParams();
 
 
   // PROFILE FUNCTIONS
@@ -90,7 +92,13 @@ function Profile() {
   // };
 
 
-  // FOLLOWS FUNCTIONS
+  // FOLLOWS FUNCTIONS - NOT SURE IF IT IS DETECTING ID AS USER
+  const followUser = async () => {
+    const status = await followsClient.userFollowsUser(profile._id);
+  };
+  const unfollowUser = async () => {
+    const status = await followsClient.userUnfollowsUser(profile._id);
+  };
   const fetchFollowers = async () => {
     const followers = await followsClient.findFollowersOfUser(profile._id);
     setFollowers(followers);
@@ -99,15 +107,17 @@ function Profile() {
     const following = await followsClient.findFollowedUsersByUser(profile._id);
     setFollowing(following);
   };
-  const alreadyFollowing = () => {
-    return followers.some((follows) => {
-      return follows.follower._id === profile._id;
-    });
-  };
+  // const alreadyFollowing = () => {
+  //   return followers.some((follows) => {
+  //     return follows.follower._id === currentUser._id;
+  //   });
+  // };
   useEffect(() => {
-    fetchFollowers();
-    fetchFollowing();
-  }, [profile._id]);
+    if (profile && profile._id) {
+      fetchFollowers();
+      fetchFollowing();
+    }
+  }, [profile]);
 
 
   return (
