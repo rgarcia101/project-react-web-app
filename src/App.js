@@ -6,6 +6,7 @@ import {Routes, Route, Navigate} from "react-router-dom";
 import BookDetails from './Search/bookDetails';
 import HomeAnonymous from "./HomeAnonymous";
 import HomeLoggedIn from "./HomeLoggedIn";
+import Home from './Home/home';
 import Profile from "./Profile";
 import Login from './Login/index';
 import Registration from './Registration';
@@ -21,12 +22,10 @@ function App() {
     <HashRouter>
       <div>
         <Routes>
-          <Route path="/" element={<Navigate to="HomeAnonymous" />} />
+          <Route path="/" element={<Home />} /> 
           <Route path="/search" element={<Search/>}/>
           <Route path="/search/:search" element={<Search/>}/>
           <Route path="/details/:bookId" element={<BookDetails/>}/>
-          <Route path="/HomeAnonymous" element={<HomeAnonymous />} />
-          <Route path="/HomeLoggedIn" element={<HomeLoggedIn />} />
           <Route path="/Profile" element={<Profile />}/>
           <Route path="/login" element = {<Login/>}/>
           <Route path="/signup" element = {<Registration/>}/>

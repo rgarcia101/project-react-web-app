@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import * as client from "../users/client";
+
 import { useNavigate, useLocation } from 'react-router-dom';
 import { BsBookFill } from "react-icons/bs";
 import './index.css';
@@ -13,17 +14,15 @@ function Navigation() {
     setActiveTab(location.pathname.split('/')[1]); 
   }, [location]);
 
+  const isTabActive = (tabPath) => {
+    const currentBasePath = location.pathname.split('/')[1].toLowerCase(); 
+    return currentBasePath === tabPath.toLowerCase();
+  };
   
-const isTabActive = (tabPath) => {
-  const currentBasePath = location.pathname.split('/')[1].toLowerCase(); 
-  return currentBasePath === tabPath.toLowerCase();
-};
-  
-const signout = async () => {
+  const signout = async () => {
     await client.signout();
     navigate("/login");
-};
-
+  };
 
   return (
     <div className="row gold-background wd-general">
@@ -32,8 +31,8 @@ const signout = async () => {
         <span style={{ fontSize: "1.5em" }}>BookBuddies</span>
         <div className="float-end nav navbar-expand-lg gold-background nav-pills black-text">
           <button type="button" 
-                  className={`btn ${isTabActive('HomeLoggedIn') ? 'oval-active-nav-pill nav-link active' : 'btn-warning'}`}
-                  onClick={() => navigate('/HomeLoggedIn')}>
+                  className={`btn ${isTabActive('') ? 'oval-active-nav-pill nav-link active' : 'btn-warning'}`}
+                  onClick={() => navigate('/')}> {/* Updated navigation */}
             Home
           </button>
           <button type="button" 
@@ -43,7 +42,7 @@ const signout = async () => {
           </button>
           <button type="button" 
                   className={`btn ${isTabActive('search') ? 'oval-active-nav-pill nav-link active' : 'btn-warning'}`}
-                  onClick={() => navigate('/Search')}>
+                  onClick={() => navigate('/search')}> {/* Ensure correct case */}
             Search
           </button>
           <button type="button" 

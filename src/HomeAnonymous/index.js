@@ -15,6 +15,12 @@ function HomeAnonymous() {
     navigate('/signup');
   };
 
+  const handleSearch = () => {
+    
+    navigate('/search');
+  };
+
+
   return (
       <div>
         {/*Top Navigation Bar */}
@@ -23,6 +29,7 @@ function HomeAnonymous() {
             <BsBookFill className="wd-home-icon" style={{ float: "left", fontSize: "2em", color: "black"}} />
             <span style={{ fontSize: "1.5em"}}>BookBuddies</span>
             <div className="float-end">
+            <button type="button" className="btn btn-warning" style={{ fontSize: "1.1em"}}onClick={handleSearch}>Search</button>
               <button type="button" className="btn btn-warning" style={{ fontSize: "1.1em"}}onClick={handleSignin}>Sign In</button>
               <button type="button" className="active-button" style={{ fontSize: "1.1em"}}onClick={handleGetStarted}>Get Started</button>
             </div></div>
