@@ -27,6 +27,10 @@ function BookDetails() {
       setBook(book);
    };
 
+   useEffect(() => {
+      fetchBook();
+    }, [bookId]); // Update the dependency array
+
    // NOT WORKING AS EXPECTED.
   // const handleSaveBookshelfItem = async () => {
   //   if (profile && book) {
@@ -41,6 +45,7 @@ function BookDetails() {
       const savedBook = {
         title: book.title,
         author: book.authors[0],
+        apiId: bookId,
         isbn: book.industryIdentifiers[0].identifier,
         publisher: book.publisher,
         image: book.imageLinks.smallThumbnail,
