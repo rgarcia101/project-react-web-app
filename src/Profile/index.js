@@ -12,8 +12,11 @@ function Profile() {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const [profile, setProfile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [isEditingReview, setIsEditingReview] = useState(false);
   const [editedFirstName, setEditedFirstName] = useState('');
   const [editedLastName, setEditedLastName] = useState('');
+  const [editedReviewBookId, setEditedReviewBookId] = useState(null);
+  const [editedReview, setEditedReview] = useState('');
   const [books, setBooks] = useState([]);
   const navigate = useNavigate();
   const findUserById = async (id) => {
@@ -37,6 +40,9 @@ function Profile() {
   const toggleEditMode = () => {
     setIsEditing(!isEditing);
   };
+  const toggleReviewEditMode = () => {
+    setIsEditingReview(!isEditingReview);
+  };
 
   const handleFirstNameChange = (e) => {
     setEditedFirstName(e.target.value);
@@ -44,6 +50,10 @@ function Profile() {
   
   const handleLastNameChange = (e) => {
     setEditedLastName(e.target.value);
+  };
+
+  const handleReviewChange = (e) => {
+    setEditedReview(e.target.value);
   };
 
   const saveChanges = async () => {
@@ -64,6 +74,25 @@ function Profile() {
     setIsEditing(false);
   };
 
+  const saveReviewChanges = async (bookId) => {
+    // Find the book by ID
+    const bookToUpdate = books.find((book) => book._id === bookId);
+
+    // Update the review in the book with edited value
+    const updatedBook = {
+      ...bookToUpdate,
+      review: editedReview,
+    };
+
+    // Call the client function to update the book
+    await client2.updateBook(updatedBook);
+
+    // Fetch the updated books after saving changes
+    fetchBooks();
+    toggleReviewEditMode();
+    setEditedReviewBookId(null);
+  };
+
   // TODO: Here we are fetching all books and filtering by profile id. Ideally we should use a findAllBooksById function.
   const fetchBooks = async () => {
     // Check if profile is available before fetching books
@@ -79,19 +108,7 @@ function Profile() {
   }, [profile]);
 
 
-  // Add Review
-  const handleReviewChange = async (bookId, updatedReview) => {
-    const updatedBook = {
-      ...books.find(book => book._id === bookId),
-      review: updatedReview,
-    };
-
-    // Call the client function to update the book with the updated review
-    await client2.updateBook(updatedBook);
-
-    // Fetch the updated books after saving changes
-    fetchBooks();
-  };
+ 
 
 
   return (
@@ -173,6 +190,7 @@ function Profile() {
               <th className="table-dark-blue-row">Title and Author</th>
               <th className="table-dark-blue-row">Publisher</th>
               <th className="table-dark-blue-row">Review</th>
+              <th className="table-dark-blue-row"></th>
             </tr>
             </thead>
             <tbody>
@@ -180,7 +198,38 @@ function Profile() {
                 <tr key={book._id}>
                   <td><strong>{book.title}</strong>, {book.author}</td>
                   <td>{book.publisher}</td>
-                  <td>{book.review}</td>
+                  <td>
+                  {isEditingReview && book._id === editedReviewBookId ? (
+                    <input
+                      type="text"
+                      value={editedReview}
+                      onChange={handleReviewChange}
+                    />
+                  ) : (
+                    book.review
+                  )}
+                </td>
+                <td>
+                  {isEditingReview && book._id === editedReviewBookId ? (
+                    <button
+                      className="btn btn-success"
+                      onClick={() => saveReviewChanges(book._id)}
+                    >
+                      Save Review
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-dark"
+                      onClick={() => {
+                        toggleReviewEditMode();
+                        setEditedReviewBookId(book._id);
+                        setEditedReview(book.review);
+                      }}
+                    >
+                      Edit Review
+                    </button>
+                  )}
+                </td>
                 </tr>
             ))}
             </tbody>
