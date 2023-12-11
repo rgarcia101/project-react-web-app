@@ -2,12 +2,13 @@ import "../index.css";
 import Navigation from "../Navigation";
 import * as client from "../users/client";
 import * as client2 from "./client";
+import * as followsClient from "../Follows/client"
 import React, { useState, useEffect } from "react";
 import { BsFillPersonFill, BsPencilSquare } from "react-icons/bs";
 //import { useState, useEffect } from "react";
 import { useNavigate, useParams} from "react-router-dom";
 
-function Profile() {
+  function Profile() {
   const { id } = useParams();
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const [profile, setProfile] = useState(null);
@@ -18,7 +19,11 @@ function Profile() {
   const [editedReviewBookId, setEditedReviewBookId] = useState(null);
   const [editedReview, setEditedReview] = useState('');
   const [books, setBooks] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
   const navigate = useNavigate();
+
   const findUserById = async (id) => {
     const user = await client.findUserById(id);
     setProfile(user);
@@ -36,6 +41,19 @@ function Profile() {
   fetchAccount();
     }
   }, []);
+
+
+  // This is used for navigation to other profiles
+    useEffect(() => {
+      const fetchProfile = async () => {
+        if (id) {
+          const user = await client.findUserById(id);
+          setProfile(user);
+        }
+      };
+      fetchProfile();
+    }, [id]);
+
 
   const toggleEditMode = () => {
     setIsEditing(!isEditing);
@@ -93,7 +111,6 @@ function Profile() {
     setEditedReviewBookId(null);
   };
 
-  // TODO: Here we are fetching all books and filtering by profile id. Ideally we should use a findAllBooksById function.
   const fetchBooks = async () => {
     // Check if profile is available before fetching books
     if (profile) {
@@ -107,8 +124,38 @@ function Profile() {
     fetchBooks();
   }, [profile]);
 
+  const followUser = async () => {
+    await followsClient.userFollowsUser(profile._id);
+    navigate(`/profile/${profile._id}`);
+  };
+  const unfollowUser = async () => {
+    await followsClient.userUnfollowsUser(profile._id);
+    // After unfollowing, navigate to the user's profile
+    navigate(`/profile/${profile._id}`);
+  };
+  const fetchFollowers = async () => {
+    const followers = await followsClient.findFollowersOfUser(profile._id);
+    setFollowers(followers);
+  };
 
- 
+  const fetchFollowing = async () => {
+    const following = await followsClient.findFollowedUsersByUser(profile._id);
+    setFollowing(following);
+  };
+
+  const alreadyFollowing = () => {
+    return followers.some((follows) => {
+      return follows.follower._id === profile._id;
+    });
+  };
+
+  useEffect(() => {
+    if (profile && profile._id) {
+      fetchFollowers();
+      fetchFollowing();
+    }
+  }, [profile, id]);
+
 
 
   return (
@@ -135,6 +182,15 @@ function Profile() {
                 <span>
                   <h4>{profile.username}</h4>
                 </span>
+                {/*{profile && profile._id !== id && (*/}
+                  <>
+                {/*    {alreadyFollowing() ? (*/}
+                        <button onClick={unfollowUser} className="btn btn-danger button">Unfollow</button>
+                    {/*) : (*/}
+                        <button onClick={followUser} className="btn btn-success button">Follow</button>
+                    {/*)}*/}
+                  </>
+                {/*)}*/}
               </div>
               <hr/>
               <table className="table">
@@ -177,9 +233,6 @@ function Profile() {
 
             </div>
           </div><br/>
-
-          <h4>NOTE: Author could have same table but just expose biography</h4>
-
           <br/>
 
           {/*BOOKS TABLE */}
@@ -256,35 +309,40 @@ function Profile() {
 
         </div>
         )}
-
         <div className="wd-grid-col-right-panel">
           <div className="wd-grid-row wd-general">
-            <h6>
-              Following (5)
-            </h6>
-            <hr/>
-            <div>
-              <div className="follow_list">Story Seeker</div>
-              <div className="follow_list">LitLover</div>
-              <div className="follow_list">WordWizard</div>
-              <div className="follow_list">LisaLovesBooks</div>
-              <div className="follow_list">MarkG</div>
-            </div><br/>
-            <h6>
-              Followers (6)
-            </h6><hr/>
-            <div>
-              <div className="follow_list">Story Seeker</div>
-              <div className="follow_list">LitLover</div>
-              <div className="follow_list">WordWizard</div>
-              <div className="follow_list">LisaLovesBooks</div>
-              <div className="follow_list">MarkG</div>
-              <div className="follow_list">Jack</div>
-            </div><br/>
+            <h5>Following</h5>
+            <hr />
+            <div className="follow_list">
+              {following.map((follows, index) => (
+                  <div
+                      key={index}
+                      className="follow-link"
+                      onClick={() => navigate(`/profile/${follows.followed._id}`)}
+                  >
+                    {follows.followed.username}
+                  </div>
+              ))}
+            </div>
+            <br />
+            <h5>Followers</h5>
+            <hr />
+            <div className="follow_list">
+              {followers.map((follows, index) => (
+                  <div
+                      key={index}
+                      className="follow-link"
+                      onClick={() => navigate(`/profile/${follows.follower._id}`)}
+                  >
+                    {follows.follower.username}
+                  </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
   );
 }
+
 
 export default Profile;

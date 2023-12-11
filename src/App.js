@@ -27,6 +27,7 @@ function App() {
           <Route path="/search/:search" element={<Search/>}/>
           <Route path="/details/:bookId" element={<BookDetails/>}/>
           <Route path="/Profile" element={<Profile />}/>
+          <Route path="/Profile/:id" element={<Profile />}/>
           <Route path="/login" element = {<Login/>}/>
           <Route path="/signup" element = {<Registration/>}/>
         </Routes>
