@@ -167,6 +167,9 @@ function Profile() {
   const canEditProfile = currentUser && 
   (currentUser.role === 'ADMIN' || (currentUser._id === profile._id && currentUser.role !== 'ADMIN'));
 
+  
+  const showFollowButtons = currentUser && profile && currentUser._id !== profile._id;
+
 
 
     useEffect(() => {
@@ -202,16 +205,13 @@ function Profile() {
               <span>
                 <h4>{profile.username}</h4>
               </span>
-              {/*{profile && profile._id !== id && (*/}
-                <>
-                  {/*{alreadyFollowing() ? (*/}
-                    <button onClick={unfollowUser} className="btn btn-danger button">Unfollow</button>
-                  {/*) : (*/}
-                    <button onClick={followUser} className="btn btn-success button">Follow</button>
-                  {/*)}*/}
-                </>
-              {/*)}*/}
-            </div>
+              {showFollowButtons && (
+        <span>
+          <button onClick={followUser} className="btn btn-success button">Follow</button>
+          <button onClick={unfollowUser} className="btn btn-danger button">Unfollow</button>
+        </span>
+      )}
+    </div>
             <hr/>
             <table className="table">
               <tbody>
