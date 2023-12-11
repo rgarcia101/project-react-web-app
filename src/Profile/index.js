@@ -14,7 +14,6 @@ function Profile() {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const [profile, setProfile] = useState(null);
   const [currentUser, setCurrentUser] = useState(null); // State for the current logged-in user
-
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingReview, setIsEditingReview] = useState(false);
   const [editedFirstName, setEditedFirstName] = useState('');
@@ -38,6 +37,7 @@ function Profile() {
     setEditedFirstName(profile.firstName || '');
     setEditedLastName(profile.lastName || '');
   };
+
   useEffect(() => {
     if (id) {
       findUserById(id);
@@ -45,7 +45,6 @@ function Profile() {
   fetchAccount();
     }
   }, []);
-
 
   // This is used for navigation to other profiles
     useEffect(() => {
@@ -160,6 +159,11 @@ function Profile() {
     }
   }, [profile, id]);
 
+  const canEditReview = (bookUserId, profileId) => {
+    return currentUser && currentUser._id === bookUserId && currentUser._id === profileId;
+  };
+  
+
   const canViewFullNames = currentUser && 
   (currentUser.role === 'ADMIN' || currentUser._id === profile._id);
 
@@ -205,7 +209,7 @@ function Profile() {
               <span>
                 <h4>{profile.username}</h4>
               </span>
-              {showFollowButtons && (
+               {showFollowButtons && (
         <span>
           <button onClick={followUser} className="btn btn-success button">Follow</button>
           <button onClick={unfollowUser} className="btn btn-danger button">Unfollow</button>
@@ -275,7 +279,7 @@ function Profile() {
                   )}
                 </td>
                 <td>
-                  {isEditingReview && book._id === editedReviewBookId ? (
+                  {canEditReview(book.user, profile._id) && ( isEditingReview && book._id === editedReviewBookId ? (
                     <button
                       className="btn btn-success"
                       onClick={() => saveReviewChanges(book._id)}
@@ -283,6 +287,7 @@ function Profile() {
                       Save Review
                     </button>
                   ) : (
+
                     <button
                       className="btn btn-dark"
                       onClick={() => {
@@ -293,6 +298,7 @@ function Profile() {
                     >
                       Edit Review
                     </button>
+                  )
                   )}
                 </td>
                 </tr>
