@@ -3,6 +3,7 @@ import Navigation from "../Navigation";
 import * as client from "../users/client";
 import * as client2 from "./client";
 import * as followsClient from "../Follows/client"
+import * as postsClient from "../posts/client"
 import React, { useState, useEffect } from "react";
 import { BsFillPersonFill, BsPencilSquare } from "react-icons/bs";
 //import { useState, useEffect } from "react";
@@ -124,6 +125,21 @@ import { useNavigate, useParams} from "react-router-dom";
     fetchBooks();
   }, [profile]);
 
+  // POSTS FUNCTION
+    const fetchPosts = async () => {
+      if (profile) {
+        const allPosts = await postsClient.findAllPosts();
+        // Filter posts based on the current user's ID
+        const userPosts = allPosts.filter(post => post.user === profile._id);
+        setPosts(userPosts);
+      }
+    };
+    useEffect(() => {
+      fetchPosts();
+    }, [profile]);
+
+
+  // FOLLOWS FUNCTIONS
   const followUser = async () => {
     await followsClient.userFollowsUser(profile._id);
     navigate(`/profile/${profile._id}`);
@@ -288,7 +304,7 @@ import { useNavigate, useParams} from "react-router-dom";
             </tbody>
           </table><br/><br/>
 
-          <h5>SAMPLE TABLE FOR AUTHOR (Note: They could add book to bookshelf and so it could show up here) </h5>
+          <h5>Posts to Readers </h5>
           <table className="table">
             <thead>
             <tr>
@@ -297,10 +313,10 @@ import { useNavigate, useParams} from "react-router-dom";
             </tr>
             </thead>
             <tbody>
-            {books && books.map((book) => (
-                <tr key={book._id}>
-                  <td>{book.title}</td>
-                  <td>{book.post}</td>
+            {posts && posts.map((post) => (
+                <tr key={post._id}>
+                  <td>{post.title}</td>
+                  <td>{post.text}</td>
                 </tr>
             ))}
             </tbody>
