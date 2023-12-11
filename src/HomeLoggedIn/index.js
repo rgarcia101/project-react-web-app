@@ -4,11 +4,13 @@ import Navigation from "../Navigation";
 import * as usersClient from "../users/client";
 import * as booksClient from "../books/client";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function HomeLoggedIn() {
   const [profile, setProfile] = useState(null);
   const [allBooks, setAllBooks] = useState([]);
   const [booksWithPosts, setBooksWithPosts] = useState([]);
+  const navigate = useNavigate();
 
   const fetchAccount = async () => {
     const profile = await usersClient.account();
@@ -17,6 +19,10 @@ function HomeLoggedIn() {
   useEffect(() => {
     fetchAccount();
   }, []);
+
+  const handleBookClick = (bookId) => {
+    navigate(`/details/${bookId}`);
+  };
 
   const fetchBooks = async () => {
     if (profile) {
@@ -65,7 +71,7 @@ function HomeLoggedIn() {
                 <tr>
                   {allBooks && allBooks.map((book) => (
                       <td key={book._id}>
-                        <div>
+                        <div onClick={() => handleBookClick(book.apiId)}>
                           {book.image && (
                               <img
                                   src={book.image}

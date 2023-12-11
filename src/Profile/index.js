@@ -6,14 +6,18 @@ import * as followsClient from "../follows/client";
 import * as postsClient from "../posts/client";
 import React, { useState, useEffect } from "react";
 import { BsFillPersonFill, BsPencilSquare } from "react-icons/bs";
-import { Link, useParams, useNavigate } from 'react-router-dom';
+//import { useState, useEffect } from "react";
+import { useNavigate, useParams} from "react-router-dom";
 
 function Profile() {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const [profile, setProfile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [isEditingReview, setIsEditingReview] = useState(false);
   const [editedFirstName, setEditedFirstName] = useState('');
   const [editedLastName, setEditedLastName] = useState('');
+  const [editedReviewBookId, setEditedReviewBookId] = useState(null);
+  const [editedReview, setEditedReview] = useState('');
   const [books, setBooks] = useState([]);
   const [posts, setPosts] = useState([]);
   const [followers, setFollowers] = useState([]);
@@ -45,6 +49,9 @@ function Profile() {
   const toggleEditMode = () => {
     setIsEditing(!isEditing);
   };
+  const toggleReviewEditMode = () => {
+    setIsEditingReview(!isEditingReview);
+  };
 
   const handleFirstNameChange = (e) => {
     setEditedFirstName(e.target.value);
@@ -52,6 +59,10 @@ function Profile() {
   
   const handleLastNameChange = (e) => {
     setEditedLastName(e.target.value);
+  };
+
+  const handleReviewChange = (e) => {
+    setEditedReview(e.target.value);
   };
 
   const saveChanges = async () => {
@@ -70,6 +81,26 @@ function Profile() {
   
     // Exit edit mode
     setIsEditing(false);
+  };
+
+
+  const saveReviewChanges = async (bookId) => {
+    // Find the book by ID
+    const bookToUpdate = books.find((book) => book._id === bookId);
+
+    // Update the review in the book with edited value
+    const updatedBook = {
+      ...bookToUpdate,
+      review: editedReview,
+    };
+
+    // Call the client function to update the book
+    await booksClient.updateBook(updatedBook);
+
+    // Fetch the updated books after saving changes
+    fetchBooks();
+    toggleReviewEditMode();
+    setEditedReviewBookId(null);
   };
 
 
@@ -231,6 +262,7 @@ function Profile() {
               <th className="table-dark-blue-row">Author</th>
               <th className="table-dark-blue-row">Publisher</th>
               <th className="table-dark-blue-row">Review</th>
+              <th className="table-dark-blue-row"></th>
             </tr>
             </thead>
             <tbody>
@@ -243,7 +275,38 @@ function Profile() {
                   </td>
                   <td>{book.author}</td>
                   <td>{book.publisher}</td>
-                  <td>{book.review}</td>
+                  <td>
+                  {isEditingReview && book._id === editedReviewBookId ? (
+                    <input
+                      type="text"
+                      value={editedReview}
+                      onChange={handleReviewChange}
+                    />
+                  ) : (
+                    book.review
+                  )}
+                </td>
+                <td>
+                  {isEditingReview && book._id === editedReviewBookId ? (
+                    <button
+                      className="btn btn-success"
+                      onClick={() => saveReviewChanges(book._id)}
+                    >
+                      Save Review
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-dark"
+                      onClick={() => {
+                        toggleReviewEditMode();
+                        setEditedReviewBookId(book._id);
+                        setEditedReview(book.review);
+                      }}
+                    >
+                      Edit Review
+                    </button>
+                  )}
+                </td>
                 </tr>
             ))}
             </tbody>

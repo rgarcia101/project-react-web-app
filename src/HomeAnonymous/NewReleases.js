@@ -1,12 +1,16 @@
 import * as client from "../booksapi/client";
 import {useEffect, useState} from "react";
-
+import { useNavigate } from "react-router";
 
 function NewReleases(){
 
 // Get lists of fiction and nonfiction new releases
   const [fictionReleases, setFictionReleases] = useState([]);
   const [nonFictionReleases, setNonFictionReleases] = useState([]);
+  const navigate = useNavigate();
+  const handleBookClick = (bookId) => {
+    navigate(`/details/${bookId}`);
+  };
 
   useEffect(() => {
     const fetchLatestReleases = async () => {
@@ -40,7 +44,7 @@ function NewReleases(){
           <tr>
             {books.map((book) => (
                 <td key={book.id}>
-                  <div>
+                  <div onClick={() => handleBookClick(book.id)}>
                     {book.volumeInfo.imageLinks && (
                         <img
                             src={book.volumeInfo.imageLinks.smallThumbnail}
