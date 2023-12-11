@@ -13,13 +13,14 @@ export const findAllBooks = async () => {
   return response.data;
 };
 
-export const updateBook = async (book) => {
-  const response = await request.put(`${BOOKS_API}/${book._id}`, book);
-  return response.data;
-};
 
 export const saveBook = async (book) => {
   const response = await axios.post(`${BOOKS_API}`,
       book);
+  return response.data;
+};
+
+export const updateBook = async (book) => {
+  const response = await request.put(`${BOOKS_API}/${book._id}`, book);
   return response.data;
 };

@@ -3,10 +3,10 @@ import Navigation from "../Navigation";
 import * as usersClient from "../users/client";
 import * as booksClient from "../books/client";
 import * as followsClient from "../follows/client";
+import * as postsClient from "../posts/client";
 import React, { useState, useEffect } from "react";
 import { BsFillPersonFill, BsPencilSquare } from "react-icons/bs";
-import { useParams } from 'react-router-dom';
-
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
 function Profile() {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -15,12 +15,18 @@ function Profile() {
   const [editedFirstName, setEditedFirstName] = useState('');
   const [editedLastName, setEditedLastName] = useState('');
   const [books, setBooks] = useState([]);
+  const [posts, setPosts] = useState([]);
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
   const { id } = useParams();
+  const navigate = useNavigate();
 
 
   // PROFILE FUNCTIONS
+  const findUserById = async (id) => {
+    const user = await usersClient.findUserById(id);
+    setProfile(user);
+  };
   const fetchAccount = async () => {
     const profile = await usersClient.account();
     setProfile(profile);
@@ -28,8 +34,13 @@ function Profile() {
     setEditedLastName(profile.lastName || '');
   };
   useEffect(() => {
-    fetchAccount();
-  }, []);
+    if (id) {
+      findUserById(id);
+    } else {
+      fetchAccount();
+    }
+  }, [id]);
+
 
   const toggleEditMode = () => {
     setIsEditing(!isEditing);
@@ -62,12 +73,11 @@ function Profile() {
   };
 
 
-  // BOOKS FUNCTIONS
-  // TODO: Here we are fetching all books and filtering by profile id. Ideally we should use a findAllBooksById function.
+  // BOOKS FUNCTION
   const fetchBooks = async () => {
     // Check if profile is available before fetching books
     if (profile) {
-      const allBooks = await booksClient.findAllBooks();            // Ideally change to findAllBooksByUserId
+      const allBooks = await booksClient.findAllBooks();
       // Filter books based on the current user's ID
       const userBooks = allBooks.filter(book => book.user === profile._id);
       setBooks(userBooks);
@@ -77,27 +87,28 @@ function Profile() {
     fetchBooks();
   }, [profile]);
 
+  // POSTS FUNCTION
+  const fetchPosts = async () => {
+    if (profile) {
+      const allPosts = await postsClient.findAllPosts();
+      // Filter posts based on the current user's ID
+      const userPosts = allPosts.filter(post => post.user === profile._id);
+      setPosts(userPosts);
+    }
+  };
+  useEffect(() => {
+    fetchPosts();
+    }, [profile]);
 
-  // REVIEWS FUNCTIONS - WIP
-  // const handleReviewChange = async (bookId, updatedReview) => {
-  //   const updatedBook = {
-  //     ...books.find(book => book._id === bookId),
-  //     review: updatedReview,
-  //   };
-  //
-  //   // Call the client function to update the book with the updated review
-  //   await booksClient.updateBook(updatedBook);
-  //
-  //   // Fetch the updated books after saving changes
-  //   fetchBooks();
-  // };
-
-  // FOLLOWS FUNCTIONS - NOT SURE IF IT IS DETECTING ID AS USER
+  // FOLLOWS FUNCTIONS
   const followUser = async () => {
-    const status = await followsClient.userFollowsUser(profile._id);
+    await followsClient.userFollowsUser(profile._id);
+    navigate(`/profile/${profile._id}`);
   };
   const unfollowUser = async () => {
-    const status = await followsClient.userUnfollowsUser(profile._id);
+    await followsClient.userUnfollowsUser(profile._id);
+    // After unfollowing, navigate to the user's profile
+    navigate(`/profile/${profile._id}`);
   };
   const fetchFollowers = async () => {
     const followers = await followsClient.findFollowersOfUser(profile._id);
@@ -111,10 +122,17 @@ function Profile() {
 
   // const alreadyFollowing = () => {
   //   return followers.some((follows) => {
-  //     return follows.follower._id === currentUser._id;
+  //     return follows.follower._id === profile._id;
   //   });
-  // }
+  // };
 
+
+  useEffect(() => {
+    if (profile && profile._id) {
+      fetchFollowers();
+      fetchFollowing();
+    }
+  }, [profile, id]);
 
 
 
@@ -139,10 +157,17 @@ function Profile() {
             )}
               <div>
                 <span>
-                  <h4>{profile.username}</h4>
+                  <h4>{profile.username}  <i>(NOTE: ROLE = USER, AUTHOR)</i></h4>
                 </span>
-                <button className="btn btn-success button">Follow</button>
-                <button className="btn btn-danger button">Unfollow</button>
+                <>
+                {/*  {alreadyFollowing() ? (*/}
+                      <button onClick={unfollowUser} className="btn btn-danger button">Unfollow</button>
+                  {/*) : (*/}
+                      <button onClick={followUser} className="btn btn-success button">Follow</button>
+                  {/*)}*/}
+                  <i>(NOTE: ROLE = USER)</i>
+
+                </>
               </div>
               <hr/>
               <table className="table">
@@ -180,21 +205,30 @@ function Profile() {
                   <td>Member since {new Date(profile.startDate).toLocaleDateString('en-US', options)}</td>
                   <td></td>
                 </tr>
+                <tr >
+                  <td>
+                    Biography
+                    <br/><i>(NOTE: ROLE = AUTHOR, ALLOW EDIT)</i>
+                  </td>
+                  <td>{profile.biography}</td>
+                  <td></td>
+                </tr>
                 </tbody>
               </table>
 
             </div>
           </div><br/>
-          <h4>NOTE: Author could have same table but just expose biography</h4>
 
           <br/>
 
           {/*BOOKS TABLE */}
           <h5>Bookshelf</h5>
+          <i>(NOTE: ROLE = USER)</i>
           <table className="table">
             <thead>
             <tr>
-              <th className="table-dark-blue-row">Title and Author</th>
+              <th className="table-dark-blue-row">Title</th>
+              <th className="table-dark-blue-row">Author</th>
               <th className="table-dark-blue-row">Publisher</th>
               <th className="table-dark-blue-row">Review</th>
             </tr>
@@ -202,7 +236,12 @@ function Profile() {
             <tbody>
             {books && books.map((book) => (
                 <tr key={book._id}>
-                  <td><strong>{book.title}</strong>, {book.author}</td>
+                  <td>
+                    <Link to={`/details/${book.apiId}` } className="book-link">
+                      {book.title}
+                    </Link>
+                  </td>
+                  <td>{book.author}</td>
                   <td>{book.publisher}</td>
                   <td>{book.review}</td>
                 </tr>
@@ -210,7 +249,8 @@ function Profile() {
             </tbody>
           </table><br/><br/>
 
-          <h5>SAMPLE TABLE FOR AUTHOR (Note: They could add book to bookshelf and so it could show up here) </h5>
+          <h5>Posts to Readers</h5>
+          <i>(NOTE: ROLE = AUTHOR)</i>
           <table className="table">
             <thead>
             <tr>
@@ -219,43 +259,46 @@ function Profile() {
             </tr>
             </thead>
             <tbody>
-            {books && books.map((book) => (
-                <tr key={book._id}>
-                  <td>{book.title}</td>
-                  <td>{book.post}</td>
+            {posts && posts.map((post) => (
+                <tr key={post._id}>
+                  <td>{post.title}</td>
+                  <td>{post.text}</td>
                 </tr>
             ))}
             </tbody>
           </table>
-
-
         </div>
         )}
-
         <div className="wd-grid-col-right-panel">
           <div className="wd-grid-row wd-general">
-            <h6>
-              Following (5)
-            </h6>
-            <hr/>
-            <div>
-              <div className="follow_list">Story Seeker</div>
-              <div className="follow_list">LitLover</div>
-              <div className="follow_list">WordWizard</div>
-              <div className="follow_list">LisaLovesBooks</div>
-              <div className="follow_list">MarkG</div>
-            </div><br/>
-            <h6>
-              Followers (6)
-            </h6><hr/>
-            <div>
-              <div className="follow_list">Story Seeker</div>
-              <div className="follow_list">LitLover</div>
-              <div className="follow_list">WordWizard</div>
-              <div className="follow_list">LisaLovesBooks</div>
-              <div className="follow_list">MarkG</div>
-              <div className="follow_list">Jack</div>
-            </div><br/>
+            <h5><i>NOTE: ROLE = USER</i></h5>
+            <h5>Following</h5>
+            <hr />
+            <div className="follow_list">
+              {following.map((follows, index) => (
+                  <div
+                      key={index}
+                      className="follow-link"
+                      onClick={() => navigate(`/profile/${follows.followed._id}`)}
+                  >
+                    {follows.followed.username}
+                  </div>
+              ))}
+            </div>
+            <br />
+            <h5>Followers</h5>
+            <hr />
+            <div className="follow_list">
+              {followers.map((follows, index) => (
+                  <div
+                      key={index}
+                      className="follow-link"
+                      onClick={() => navigate(`/profile/${follows.follower._id}`)}
+                  >
+                    {follows.follower.username}
+                  </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

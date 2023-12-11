@@ -32,7 +32,7 @@ code {
 }
 
 .button {
-  margin-right: 5px;
+  margin: 5px;
 }
 
 /*Banner backgrounds */
@@ -115,6 +115,18 @@ code {
   color: white !important;
 }
 
+.book-link {
+  color: #005599;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.follow-link {
+  cursor: pointer;
+  color: white;
+  display: block;
+  padding: 5px; /* Adjust the padding as needed */
+}
 
 
 

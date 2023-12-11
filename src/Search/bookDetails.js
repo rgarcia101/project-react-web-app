@@ -4,8 +4,9 @@ import { useParams } from "react-router";
 import * as apiClient from "../booksapi/client";
 import * as booksClient from "../books/client";
 import * as usersClient from "../users/client";
+import * as postClient from "../posts/client";
+import './index.css';
 
-import './index.css'
 function BookDetails() {
    const [book, setBook] = useState (null);
    const {bookId} = useParams();
@@ -21,12 +22,10 @@ function BookDetails() {
     fetchAccount();
   }, []);
 
-
    const fetchBook = async () => {
       const book = await apiClient.findBookById(bookId);
       setBook(book);
    };
-
 
   // Save book to database
   const handleSaveBook = async () => {
@@ -43,14 +42,28 @@ function BookDetails() {
         user: profile._id
       };
       // save bookshelf item
-
       await booksClient.saveBook(savedBook);
     }
   };
-   useEffect(() =>{
-      fetchBook();
-   }, []);
 
+  // Save book to author post page
+  const handleSaveBookForPost = async () => {
+    if (book) {
+      const savedBookForPost = {
+        user: profile,
+        apiId: bookId,
+        title: book.title,
+        author: book.author,
+        postDate: new Date(),
+        text: null
+      }
+      await postClient.createPost(savedBookForPost);
+    }
+  };
+
+  useEffect(() =>{
+    fetchBook();
+  }, []);
 
     return(
        <div>
@@ -63,9 +76,13 @@ function BookDetails() {
                     <img src={book.imageLinks ? book.imageLinks.smallThumbnail : ''} class = "img-fluid"/><br/>
                     <button className="btn btn-success margin-20-top" onClick={() => {
                       handleSaveBook();
-                      // handleSaveBookshelfItem();
                     }}>
                       Want to read
+                    </button><br/>
+                    <button className="btn btn-primary margin-20-top" onClick={() => {
+                      handleSaveBookForPost();
+                    }}>
+                      Save for post
                     </button>
 
                   </div>
@@ -83,26 +100,18 @@ function BookDetails() {
                         Publication Date: {book.publishedDate}<br/>
                         ISBN: {book.industryIdentifiers[0].identifier}<br/>
                         Print Type: {book.printType}
-
                      </p>
-                     
                   </div>
-                  
                </div>
-
                )}
-               
             </div>
-
             {/* Here we have a grid for user and their review */}
             <div>
             <div class="row">
                <div class="col">
                <button type="button" class="btn btn-outline-secondary float-end">Filter</button>
                <h3>Community Reviews</h3>
-                  
                </div>
-               
             </div>
             <div class="row">
                   <div class="col-2 yellow-color">
