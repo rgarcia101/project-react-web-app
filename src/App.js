@@ -28,6 +28,7 @@ function App() {
           <Route path="/HomeAnonymous" element={<HomeAnonymous />} />
           <Route path="/HomeLoggedIn" element={<HomeLoggedIn />} />
           <Route path="/Profile" element={<Profile />}/>
+          <Route path="/Profile/:id" element={<Profile />}/>
           <Route path="/login" element = {<Login/>}/>
           <Route path="/signup" element = {<Registration/>}/>
         </Routes>
