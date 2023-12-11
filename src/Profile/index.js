@@ -160,12 +160,14 @@ function Profile() {
     }
   }, [profile, id]);
 
-
   const canViewFullNames = currentUser && 
-    (currentUser.role === 'ADMIN' || currentUser._id === profile._id);
+  (currentUser.role === 'ADMIN' || currentUser._id === profile._id);
+
 
   const canEditProfile = currentUser && 
-    (currentUser.role === 'ADMIN' || (currentUser._id === profile._id && currentUser.role !== 'AUTHOR'));
+  (currentUser.role === 'ADMIN' || (currentUser._id === profile._id && currentUser.role !== 'ADMIN'));
+
+
 
     useEffect(() => {
       console.log("Current User:", currentUser);
@@ -190,6 +192,12 @@ function Profile() {
                 Edit User Information
               </button>
             )}
+            {canEditProfile && isEditing && (
+          <button className="btn btn-success float-end" onClick={saveChanges}>
+            Save Changes
+          </button>
+        )}
+
             <div>
               <span>
                 <h4>{profile.username}</h4>
@@ -207,13 +215,25 @@ function Profile() {
             <hr/>
             <table className="table">
               <tbody>
-                <tr>
-                  <td>First Name</td>
-                  <td>{canViewFullNames ? profile.firstName : '...'}</td>
-                </tr>
-                <tr>
-                  <td>Last Name</td>
-                  <td>{canViewFullNames ? profile.lastName : '...'}</td>
+              <tr>
+            <td>First Name</td>
+            <td>
+              {isEditing ? (
+                <input type="text" value={editedFirstName} onChange={handleFirstNameChange} />
+              ) : (
+                (canViewFullNames ? profile.firstName : '...')
+              )}
+            </td>
+          </tr>
+          <tr>
+            <td>Last Name</td>
+            <td>
+              {isEditing ? (
+                <input type="text" value={editedLastName} onChange={handleLastNameChange} />
+              ) : (
+                (canViewFullNames ? profile.lastName : '...')
+              )}
+            </td>
                 </tr>
                 <tr>
                   <td>Activity</td>
