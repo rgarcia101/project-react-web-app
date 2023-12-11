@@ -171,27 +171,11 @@ function BookDetails() {
                      Publication Date: {book.publishedDate || 'Unknown'}<br />
                      ISBN: {book.industryIdentifiers && book.industryIdentifiers.length > 0 ? book.industryIdentifiers[0].identifier : 'Unknown'}<br />
                      Print Type: {book.printType || 'Unknown'}
-
                      </p>
-                     
-                  </div>
-                  
-               </div>
-
-
-                    {/* Book details like page number, publication date, edition */}
-                    <p>
-                      Page Number: {book.pageCount}<br/>
-                      Publisher: {book.publisher}<br/>
-                      Publication Date: {book.publishedDate}<br/>
-                      ISBN: {book.industryIdentifiers[0].identifier}<br/>
-                      Print Type: {book.printType}
-                    </p>
                   </div>
                 </div>
             )}
           </div>
-
             {/* Here we have a grid for user and their review */}
             <div className="container mt-4">
               <div className="row">
