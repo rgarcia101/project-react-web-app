@@ -16,6 +16,7 @@ function Profile() {
   const [currentUser, setCurrentUser] = useState(null); // State for the current logged-in user
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingReview, setIsEditingReview] = useState(false);
+ // const [isFollowing, setIsFollowing] = useState(null);
   const [editedFirstName, setEditedFirstName] = useState('');
   const [editedLastName, setEditedLastName] = useState('');
   const [editedReviewBookId, setEditedReviewBookId] = useState(null);
@@ -144,6 +145,7 @@ function Profile() {
   const fetchFollowing = async () => {
     const following = await followsClient.findFollowedUsersByUser(profile._id);
     setFollowing(following);
+    //setIsFollowing(following);
   };
 
   const alreadyFollowing = () => {
@@ -159,6 +161,8 @@ function Profile() {
     }
   }, [profile, id]);
 
+  
+
   const canEditReview = (bookUserId, profileId) => {
     return currentUser && currentUser._id === bookUserId && currentUser._id === profileId;
   };
@@ -173,6 +177,7 @@ function Profile() {
 
   
   const showFollowButtons = currentUser && profile && currentUser._id !== profile._id;
+  
 
 
 
