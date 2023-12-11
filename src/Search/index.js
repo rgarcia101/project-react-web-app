@@ -5,11 +5,13 @@ import { account } from "../users/client.js"
 import * as client from "../client";
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import Navigation from "../Navigation";
+import AnonymousNavigation from '../HomeAnonymous/AnonymousNavigation.js';
 
 function Search() {
   const {search} = useParams();
   const [searchTerm, setSearchTerm] = useState(search);
   const [results, setResults] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
   const navigate = useNavigate();
 
   const fetchBooks = async (search) => {
@@ -19,22 +21,21 @@ function Search() {
   };
 
   useEffect(() => {
-    if (search){
+    account()
+      .then(response => {
+        setIsLoggedIn(response && Object.keys(response).length > 0);
+      })
+      .catch(() => setIsLoggedIn(false));
+
+    if (search) {
       fetchBooks(search);
     }
-
   }, [search]);
 
   const handleBookClick = async (bookId) => {
-    try {
-      const response = await account();
-      if (response && Object.keys(response).length > 0) {
-        navigate(`/details/${bookId}`);
-      } else {
-        navigate('/login');
-      }
-    } catch (error) {
-      console.error('Error during login status check', error);
+    if (isLoggedIn) {
+      navigate(`/details/${bookId}`);
+    } else {
       navigate('/login');
     }
   };
@@ -42,7 +43,7 @@ function Search() {
 
   return(
       <div>
-        <Navigation/>
+         {isLoggedIn ? <Navigation /> : <AnonymousNavigation />}
         <div className='page-padding'>
             <label for="inputSearch" className="form-label"><h3>Search</h3></label>
             <form className="row">
