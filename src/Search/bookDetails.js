@@ -123,18 +123,18 @@ function BookDetails() {
                   </div>
                   <div class="col">
                      <h2 className="font-bold">{book.title}</h2>
-                     <h5>{book.authors[0]}</h5>
+                     <h5>{book.authors && book.authors.length > 0 ? book.authors[0] : 'Unknown Author'}</h5>
                      <h6>Rating: {book.averageRating ? book.averageRating: "Unknown"}</h6><hr/>
                      <p dangerouslySetInnerHTML={{ __html: book.description }} /><hr/>
-                     <p>Genre: {book.categories[0]}</p>
+                     <p>Genre: {book.categories && book.categories.length > 0 ? book.categories[0] : 'Unknown Genre'}</p>
 
                      {/* Book details like page number, publication date, edition */}
                      <p>
-                        Page Number: {book.pageCount}<br/>
-                        Publisher: {book.publisher}<br/>
-                        Publication Date: {book.publishedDate}<br/>
-                        ISBN: {book.industryIdentifiers[0].identifier}<br/>
-                        Print Type: {book.printType}
+                     Page Number: {book.pageCount || 'Unknown'}<br />
+                     Publisher: {book.publisher || 'Unknown'}<br />
+                     Publication Date: {book.publishedDate || 'Unknown'}<br />
+                     ISBN: {book.industryIdentifiers && book.industryIdentifiers.length > 0 ? book.industryIdentifiers[0].identifier : 'Unknown'}<br />
+                     Print Type: {book.printType || 'Unknown'}
 
                      </p>
                      
