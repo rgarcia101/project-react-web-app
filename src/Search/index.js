@@ -1,6 +1,7 @@
 import './index.css';
 import {useEffect, useState} from "react";
 import {API_KEY} from "../client";
+import { account } from "../users/client.js"
 import * as client from "../client";
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import Navigation from "../Navigation";
@@ -22,9 +23,21 @@ function Search() {
       fetchBooks(search);
     }
 
-  }, [search]
+  }, [search]);
 
-  );
+  const handleBookClick = async (bookId) => {
+    try {
+      const response = await account();
+      if (response && Object.keys(response).length > 0) {
+        navigate(`/details/${bookId}`);
+      } else {
+        navigate('/login');
+      }
+    } catch (error) {
+      console.error('Error during login status check', error);
+      navigate('/login');
+    }
+  };
 
 
   return(
@@ -58,7 +71,7 @@ function Search() {
 
           <ul className="list-group">
             {results && results.map((item, index) => (
-                <li key={index} className={"list-group-item"}>
+                <li key={index} className={"list-group-item"} onClick={() => handleBookClick(item.id)}>
 
                   {/* Working now, not sure why!!*/}
                   

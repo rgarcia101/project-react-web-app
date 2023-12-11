@@ -5,7 +5,7 @@ function LoginBar(){
 const navigate = useNavigate();
 
   const handleHome = () => {
-    navigate('/HomeAnonymous');
+    navigate('/');
   };
   return(
       <div className="row gold-background wd-general">
