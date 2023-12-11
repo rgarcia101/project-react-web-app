@@ -8,10 +8,13 @@ import { BsFillPersonFill, BsPencilSquare } from "react-icons/bs";
 //import { useState, useEffect } from "react";
 import { useNavigate, useParams} from "react-router-dom";
 
-  function Profile() {
+
+function Profile() {
   const { id } = useParams();
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const [profile, setProfile] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null); // State for the current logged-in user
+
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingReview, setIsEditingReview] = useState(false);
   const [editedFirstName, setEditedFirstName] = useState('');
@@ -31,6 +34,7 @@ import { useNavigate, useParams} from "react-router-dom";
   const fetchAccount = async () => {
     const profile = await client.account();
     setProfile(profile);
+    setCurrentUser(profile);
     setEditedFirstName(profile.firstName || '');
     setEditedLastName(profile.lastName || '');
   };
@@ -157,6 +161,18 @@ import { useNavigate, useParams} from "react-router-dom";
   }, [profile, id]);
 
 
+  const canViewFullNames = currentUser && 
+    (currentUser.role === 'ADMIN' || currentUser._id === profile._id);
+
+  const canEditProfile = currentUser && 
+    (currentUser.role === 'ADMIN' || (currentUser._id === profile._id && currentUser.role !== 'AUTHOR'));
+
+    useEffect(() => {
+      console.log("Current User:", currentUser);
+      console.log("Profile:", profile);
+      console.log("Can view full names:", canViewFullNames);
+    }, [currentUser, profile]);
+  
 
   return (
       <div>
@@ -169,61 +185,37 @@ import { useNavigate, useParams} from "react-router-dom";
               <BsFillPersonFill className="wd-icon" style={{ float: "right", fontSize: "11em", color: "grey"}} />
             </div>
             <div className="wd-grid-col-wide-column wd-general">
-            {isEditing ? (
-              <button className="btn btn-success float-end" onClick={saveChanges}>
-                Save
-              </button>
-            ) : (
+            {canEditProfile && !isEditing && (
               <button className="btn btn-dark float-end" onClick={toggleEditMode}>
                 Edit User Information
               </button>
             )}
-              <div>
-                <span>
-                  <h4>{profile.username}</h4>
-                </span>
-                {/*{profile && profile._id !== id && (*/}
-                  <>
-                {/*    {alreadyFollowing() ? (*/}
-                        <button onClick={unfollowUser} className="btn btn-danger button">Unfollow</button>
-                    {/*) : (*/}
-                        <button onClick={followUser} className="btn btn-success button">Follow</button>
-                    {/*)}*/}
-                  </>
-                {/*)}*/}
-              </div>
-              <hr/>
-              <table className="table">
-                <tbody>
-                <tr >
+            <div>
+              <span>
+                <h4>{profile.username}</h4>
+              </span>
+              {/*{profile && profile._id !== id && (*/}
+                <>
+                  {/*{alreadyFollowing() ? (*/}
+                    <button onClick={unfollowUser} className="btn btn-danger button">Unfollow</button>
+                  {/*) : (*/}
+                    <button onClick={followUser} className="btn btn-success button">Follow</button>
+                  {/*)}*/}
+                </>
+              {/*)}*/}
+            </div>
+            <hr/>
+            <table className="table">
+              <tbody>
+                <tr>
                   <td>First Name</td>
-                  <td>{isEditing ? (
-                      <input
-                        type="text"
-                        value={editedFirstName}
-                        onChange={handleFirstNameChange}
-                      />
-                    ) : (
-                      profile.firstName
-                    )}
-                  </td>
-                  {/* <td>EDIT BUTTON</td> */}
+                  <td>{canViewFullNames ? profile.firstName : '...'}</td>
                 </tr>
-                <tr >
+                <tr>
                   <td>Last Name</td>
-                  <td>{isEditing ? (
-                        <input
-                          type="text"
-                          value={editedLastName}
-                          onChange={handleLastNameChange}
-                        />
-                      ) : (
-                        profile.lastName
-                      )}
-                  </td>
-                  {/* <td>EDIT BUTTON</td> */}
+                  <td>{canViewFullNames ? profile.lastName : '...'}</td>
                 </tr>
-                <tr >
+                <tr>
                   <td>Activity</td>
                   <td>Member since {new Date(profile.startDate).toLocaleDateString('en-US', options)}</td>
                   <td></td>
