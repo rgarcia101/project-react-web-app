@@ -20,3 +20,8 @@ export const saveBookshelfItem = async (userId, bookId) => {
   });
   return response.data;
 };
+
+export const findAllBooksByApiId = async (apiId) => {
+  const response = await axios.get(`${BOOKS_API}/api/${apiId}`);
+  return response.data;
+};

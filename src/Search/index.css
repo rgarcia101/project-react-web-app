@@ -122,90 +122,94 @@ code {
 
 
 /*!*Nav Bar*!*/
-/*.oval-active-nav-pill .nav-link.active {*/
-/*    border-radius: 50px; !* Use a large value to create an oval shape *!*/
-/*    background-color: black !important;*/
-/*}*/
+.oval-active-nav-pill .nav-link.active {
+   border-radius: 50px;
+   background-color: black !important;
+}
 
-/*.gold-background {*/
-/*    background-color: #FFC000;*/
-/*    padding-top: 4px;*/
-/*    padding-bottom: 4px;*/
-/*}*/
+.gold-background {
+   background-color: #FFC000;
+   padding-top: 4px;
+   padding-bottom: 4px;
+}
 
-/*.black-text .nav-link {*/
-/*    color: black; !* Set the desired text color (black in this case) *!*/
-/*}*/
+.black-text .nav-link {
+   color: black;
+}
 
-/*.black-text .nav-link:hover {*/
-/*    color: white; !* Set the desired text color (black in this case) *!*/
-/*}*/
+.black-text .nav-link:hover {
+   color: white;
+}
 
-/*.no-padding-left {*/
-/*    padding-left: 0px !important;*/
-/*}*/
+.no-padding-left {
+   padding-left: 0px !important;
+}
 
-/*.no-padding {*/
-/*    padding: 0;*/
-/*}*/
+.no-padding {
+   padding: 0;
+}
 
-/*.page-padding {*/
-/*    padding: 20px*/
-/*}*/
+.page-padding {
+   padding: 20px
+}
 
-/*.page-padding-top{*/
-/*    padding-top: 20px;*/
-/*}*/
+.page-padding-top{
+   padding-top: 20px;
+}
 
-/*.small-margin-top{*/
-/*    margin-top: 4px !important;*/
-/*}*/
+.small-margin-top{
+   margin-top: 4px !important;
+}
 
-/*.small-margin-bottom{*/
-/*    margin-bottom:4px !important;*/
-/*}*/
+.small-margin-bottom{
+   margin-bottom:4px !important;
+}
 
-/*.yellow-color {*/
-/*    background-color: yellow;*/
-/*}*/
+.yellow-color {
+   background-color: yellow;
+}
 
-/*.green-color {*/
-/*    background-color: green;*/
-/*}*/
+.green-color {
+   background-color: green;
+}
 
-/*.aqua-color{*/
-/*    background-color:aqua;*/
-/*}*/
+.aqua-color{
+   background-color:aqua;
+}
 
-/*.no-cursor{*/
-/*    color: transparent !important;*/
-/*    text-shadow: 0px 0px 0px black;*/
-/*    background-color: red !important;*/
-/*}*/
+.no-cursor{
+   color: transparent !important;
+   text-shadow: 0px 0px 0px black;
+   background-color: red !important;
+}
 
 /*!*Search Page CSS*!*/
-/*.title-size{*/
-/*    font-size: 20px;*/
-/*}*/
+.title-size{
+    font-size: 20px;
+}
 
-/*.margin-thumbnail{*/
-/*    margin-right: 20px;*/
-/*}*/
+.margin-thumbnail{
+    margin-right: 20px;
+}
 
-/*.link-styling{*/
-/*    text-decoration:none;*/
-/*    color: black;*/
-/*}*/
+.link-styling{
+    text-decoration:none;
+   color: black;
+}
 
-/*.link-styling:hover{*/
-/*    text-decoration:underline;*/
-/*    color: black;*/
-/*}*/
+.link-styling:hover{
+    text-decoration:underline;
+   color: black;
+}
 
-/*.font-bold{*/
-/*    font-weight: bold;*/
-/*}*/
+.font-bold{
+   font-weight: bold;
+}
 
-/*.margin-20-top {*/
-/*    margin-top: 20px;*/
-/*}*/
+.margin-20-top {
+   margin-top: 20px;
+}
+
+.large-font{
+    font-size: large;
+}
