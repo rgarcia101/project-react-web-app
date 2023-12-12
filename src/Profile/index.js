@@ -160,6 +160,11 @@ function Profile() {
     }
   }, [profile, id]);
 
+  const canEditReview = (bookUserId, profileId) => {
+    return currentUser && currentUser._id === bookUserId && currentUser._id === profileId;
+  };
+  
+
   const canViewFullNames = currentUser && 
   (currentUser.role === 'ADMIN' || currentUser._id === profile._id);
 
@@ -167,6 +172,8 @@ function Profile() {
   const canEditProfile = currentUser && 
   (currentUser.role === 'ADMIN' || (currentUser._id === profile._id && currentUser.role !== 'ADMIN'));
 
+  
+  const showFollowButtons = currentUser && profile && currentUser._id !== profile._id;
 
 
     useEffect(() => {
@@ -176,10 +183,10 @@ function Profile() {
     }, [currentUser, profile]);
   
 
-  return (
+    return (
       <div>
         <Navigation />
-
+  
         {profile && (
         <div className="wd-grid-col-wide-column wd-general">
           <div className="wd-grid-row">
@@ -197,21 +204,18 @@ function Profile() {
             Save Changes
           </button>
         )}
-
+  
             <div>
               <span>
                 <h4>{profile.username}</h4>
               </span>
-              {/*{profile && profile._id !== id && (*/}
-                <>
-                  {/*{alreadyFollowing() ? (*/}
-                    <button onClick={unfollowUser} className="btn btn-danger button">Unfollow</button>
-                  {/*) : (*/}
-                    <button onClick={followUser} className="btn btn-success button">Follow</button>
-                  {/*)}*/}
-                </>
-              {/*)}*/}
-            </div>
+               {showFollowButtons && (
+        <span>
+          <button onClick={followUser} className="btn btn-success button">Follow</button>
+          <button onClick={unfollowUser} className="btn btn-danger button">Unfollow</button>
+        </span>
+      )}
+    </div>
             <hr/>
             <table className="table">
               <tbody>
@@ -242,11 +246,11 @@ function Profile() {
                 </tr>
                 </tbody>
               </table>
-
+  
             </div>
           </div><br/>
           <br/>
-
+  
           {/*BOOKS TABLE */}
           <h5>Bookshelf</h5>
           <table className="table">
@@ -275,7 +279,7 @@ function Profile() {
                   )}
                 </td>
                 <td>
-                  {isEditingReview && book._id === editedReviewBookId ? (
+                  {canEditReview(book.user, profile._id) && ( isEditingReview && book._id === editedReviewBookId ? (
                     <button
                       className="btn btn-success"
                       onClick={() => saveReviewChanges(book._id)}
@@ -283,6 +287,7 @@ function Profile() {
                       Save Review
                     </button>
                   ) : (
+  
                     <button
                       className="btn btn-dark"
                       onClick={() => {
@@ -293,14 +298,15 @@ function Profile() {
                     >
                       Edit Review
                     </button>
+                  )
                   )}
                 </td>
                 </tr>
             ))}
             </tbody>
           </table><br/><br/>
-
-          <h5>SAMPLE TABLE FOR AUTHOR (Note: They could add book to bookshelf and so it could show up here) </h5>
+  
+          <h5>Posts to Readers </h5>
           <table className="table">
             <thead>
             <tr>
@@ -309,16 +315,16 @@ function Profile() {
             </tr>
             </thead>
             <tbody>
-            {books && books.map((book) => (
-                <tr key={book._id}>
-                  <td>{book.title}</td>
-                  <td>{book.post}</td>
+            {posts && posts.map((post) => (
+                <tr key={post._id}>
+                  <td>{post.title}</td>
+                  <td>{post.text}</td>
                 </tr>
             ))}
             </tbody>
           </table>
-
-
+  
+  
         </div>
         )}
         <div className="wd-grid-col-right-panel">
@@ -354,7 +360,7 @@ function Profile() {
         </div>
       </div>
   );
-}
-
-
-export default Profile;
+  }
+  
+  
+  export default Profile;
