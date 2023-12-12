@@ -4,11 +4,14 @@ import {API_KEY} from "../client";
 import * as client from "../client";
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import Navigation from "../Navigation";
+import AnonymousNavigation from '../HomeAnonymous/AnonymousNavigation';
+import { account } from '../users/client';
 
 function Search() {
   const {search} = useParams();
   const [searchTerm, setSearchTerm] = useState(search);
   const [results, setResults] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
   const navigate = useNavigate();
 
   const fetchBooks = async (search) => {
@@ -18,18 +21,32 @@ function Search() {
   };
 
   useEffect(() => {
-    if (search){
+    account()
+      .then(response => {
+        setIsLoggedIn(response && Object.keys(response).length > 0);
+      })
+      .catch(() => setIsLoggedIn(false));
+
+    if (search) {
       fetchBooks(search);
     }
+  }, [search]);
 
-  }, [search]
-
-  );
+  // Function to handle book click
+  const handleBookClick = async (bookId) => {
+    if (isLoggedIn) {
+      navigate(`/details/${bookId}`);
+    } else {
+      navigate('/login');
+    }
+  };
+  
 
 
   return(
       <div>
-        <Navigation/>
+        {isLoggedIn ? <Navigation /> : <AnonymousNavigation />} {/* Conditional Navigation */}
+
         <div className='page-padding'>
             <label for="inputSearch" className="form-label"><h3>Search</h3></label>
             <form className="row">
@@ -58,7 +75,7 @@ function Search() {
 
           <ul className="list-group">
             {results && results.map((item, index) => (
-                <li key={index} className={"list-group-item"}>
+                <li key={index} className={"list-group-item"} onClick={() => handleBookClick(item.id)}>
 
                   {/* Working now, not sure why!!*/}
                   
