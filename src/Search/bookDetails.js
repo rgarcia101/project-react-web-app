@@ -13,6 +13,8 @@ function BookDetails() {
    const {bookId} = useParams();
    const [profile, setProfile] = useState(null);
    const [booksWithSameApiId, setBooksWithSameApiId] = useState([]);
+   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
    //const [booksWithDetails, setBooksWithDetails] = useState([]);
 
    // TODO: I want to add the logged in user to the book schema so that we know who added it.
@@ -22,8 +24,10 @@ function BookDetails() {
     setProfile(profile);
   };
   useEffect(() => {
-    fetchAccount();
-  }, []);
+    fetchAccount().then((profile) => {
+       setIsLoggedIn(profile != null);
+    });
+ }, []);
 
 
    const fetchBook = async () => {
