@@ -1,41 +1,53 @@
 import * as client from "../client";
 import {useEffect, useState} from "react";
 import { useNavigate } from "react-router";
+import { account } from '../users/client'; // Assuming this is how you check for logged-in user
 
 function NewReleases(){
 
 // Get lists of fiction and nonfiction new releases
   const [fictionReleases, setFictionReleases] = useState([]);
   const [nonFictionReleases, setNonFictionReleases] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const navigate = useNavigate();
   const handleBookClick = (bookId) => {
-    navigate(`/details/${bookId}`);
+    if (!isLoggedIn) {
+      navigate('/login');
+    } else {
+      navigate(`/details/${bookId}`);
+    }
   };
 
+
   useEffect(() => {
-    const fetchLatestReleases = async () => {
-      try {
-        const searchTerm = 'new fiction releases'; // Adjust the search term for fiction
-        const fictionReleases = await client.findBooks(searchTerm);
-
-        const searchTermNonFiction = 'new nonfiction releases'; // Adjust the search term for non-fiction
-        const nonFictionReleases = await client.findBooks(searchTermNonFiction);
-
-        // Sort books based on publishedDate in descending order
-        const sortAndSlice = (books) =>
-            books
-                .sort((a, b) => new Date(b.volumeInfo.publishedDate) - new Date(a.volumeInfo.publishedDate))
-                .slice(0, 10);
-
-        setFictionReleases(sortAndSlice(fictionReleases));
-        setNonFictionReleases(sortAndSlice(nonFictionReleases));
-      } catch (error) {
-        console.error('Error fetching latest releases:', error);
-      }
-    };
-
-    fetchLatestReleases();
+    // Fetch user account to check if the user is logged in
+    account()
+      .then(response => {
+        setIsLoggedIn(response && Object.keys(response).length > 0);
+        // Once the login status is known, fetch latest releases
+        fetchLatestReleases();
+      })
+      .catch(() => {
+        setIsLoggedIn(false);
+        fetchLatestReleases();
+      });
   }, []);
+
+  const fetchLatestReleases = async () => {
+    try {
+      const searchTermFiction = 'new fiction releases';
+      const fictionResults = await client.findBooks(searchTermFiction);
+
+      const searchTermNonFiction = 'new nonfiction releases';
+      const nonFictionResults = await client.findBooks(searchTermNonFiction);
+
+      setFictionReleases(fictionResults.slice(0, 10)); // Assuming you want to limit to 10
+      setNonFictionReleases(nonFictionResults.slice(0, 10));
+    } catch (error) {
+      console.error('Error fetching latest releases:', error);
+    }
+  };
 
   const renderBookList = (books) => (
       <div className="table-responsive">
